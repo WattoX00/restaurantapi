@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Master Data",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8001"
+    }
+  ],
+  "paths": {
+    "/get_menu": {
+      "get": {
+        "summary": "List menu",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/get_menu" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+    }
+      },
+    "/new_item": {
+      "post": {
+        "summary": "New Item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/new_item" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "get_menu": {
+        "type": "object",
+        "properties": {
+          "food_name": { "type": "string" },
+          "category": { "type": "string" },
+          "price": { "type": "number" },
+          "ingredients": {
+             "type": "array",
+             "items": { "type": "string" }
+            },
+          "allergies": { 
+             "type": "array",
+             "items": { "type": "string" }
+            },
+          "availability": { "type": "boolean" }
+        },
+        "required": ["food_name", "category", "price", "ingredients", "allergies", "availability"]
+      },
+      "new_item": {
+        "type": "object",
+        "properties": {
+          "food_name": { "type": "string" },
+          "category": { "type": "string" },
+          "price": { "type": "number" },
+          "ingredients": {
+             "type": "array",
+             "items": { "type": "string" }
+            },
+          "allergies": { 
+             "type": "array",
+             "items": { "type": "string" }
+            },
+          "availability": { "type": "boolean" }
+        },
+        "required": ["food_name", "category", "price", "ingredients", "allergies", "availability"]
+      }
+    }
+  }
+}

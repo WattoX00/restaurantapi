@@ -1,0 +1,149 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Statistics",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://127.0.0.1:8003"
+    }
+  ],
+  "paths": {
+    "/most_items_sold": {
+      "get": {
+        "summary": "List most sold items",
+        "parameters": [
+            {
+                "name": "start_date",
+                "in": "query",
+                "required": true,
+                "schema": { "type": "string", "format": "date" },
+                "description": "Start date of the period (YYYY-MM-DD)"
+            },
+            {
+                "name": "end_date",
+                "in": "query",
+                "required": true,
+                "schema": { "type": "string", "format": "date" },
+                "description": "End date of the period (YYYY-MM-DD)"
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/most_items_sold" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/least_items_sold": {
+      "get": {
+        "summary": "List least sold items",
+        "parameters": [
+            {
+                "name": "start_date",
+                "in": "query",
+                "required": true,
+                "schema": { "type": "string", "format": "date" },
+                "description": "Start date of the period (YYYY-MM-DD)"
+            },
+            {
+                "name": "end_date",
+                "in": "query",
+                "required": true,
+                "schema": { "type": "string", "format": "date" },
+                "description": "End date of the period (YYYY-MM-DD)"
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/least_items_sold" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/monthly_data": {
+      "get": {
+        "summary": "List most items sold",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/monthly_data" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "most_items_sold": {
+        "type": "object",
+        "properties": {
+          "most_sold_items": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["most_sold_items"]
+      },
+      "least_items_sold": {
+        "type": "object",
+        "properties": {
+          "least_sold_items": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["least_sold_items"]
+      },
+      "monthly_data": {
+        "type": "object",
+        "properties": {
+          "income": { "type": "number" },
+          "time_of_the_day": {
+          "type": "object",
+          "properties": {
+            "morning": { "type": "number", "description": "Total sales from 06:00-12:00" },
+            "noon": { "type": "number", "description": "Total sales from 12:00-18:00" },
+            "afternoon": { "type": "number", "description": "Total sales from 18:00-24:00" }
+            }
+          }
+        },
+        "required": ["income", "time_of_the_day"]
+      }
+    }
+  }
+}

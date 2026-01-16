@@ -1,0 +1,139 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Orders",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8002"
+    }
+  ],
+  "paths": {
+    "/add_order": {
+      "post": {
+        "summary": "Add Order",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/add_order" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/view_order": {
+      "get": {
+        "summary": "View Order",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/view_order" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/update_order/{order_id}": {
+        "patch": {
+            "summary": "Update Order",
+            "parameters": [
+                {
+                  "name": "order_id",
+                  "in": "path",
+                  "required": true,
+                  "schema": { "type": "integer" }
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": { "$ref": "#/components/schemas/update_order" }
+                    }
+                }
+            },
+            "responses": {
+                "200": { "description": "OK" },
+                "400": { "description": "Invalid input" },
+                "401": { "description": "Unauthorized" }
+            }
+        }
+    }
+  },
+  "components": {
+    "schemas": {
+      "add_order": {
+        "type": "object",
+        "properties": {
+          "food_names": {
+                "type": "array",
+                "items": { "type": "string" }
+           },
+          "table_number": { "type": "integer" },
+          "description": { "type": "string" },
+          "time_of_the_day": {
+          "type": "object",
+          "properties": {
+            "morning": { "type": "number", "description": "Total sales from 06:00-12:00" },
+            "noon": { "type": "number", "description": "Total sales from 12:00-18:00" },
+            "afternoon": { "type": "number", "description": "Total sales from 18:00-24:00" }
+            }
+          }
+        },
+        "required": [ "food_names", "table_number", "description", "time_of_the_day" ]
+      },
+      "view_order": {
+        "type": "object",
+        "properties": {
+          "food_names": {
+                "type": "array",
+                "items": { "type": "string" }
+           },
+          "table_number": { "type": "integer" },
+          "description": { "type": "string" },
+          "time_of_the_day": {
+          "type": "object",
+          "properties": {
+            "morning": { "type": "number", "description": "Total sales from 06:00-12:00" },
+            "noon": { "type": "number", "description": "Total sales from 12:00-18:00" },
+            "afternoon": { "type": "number", "description": "Total sales from 18:00-24:00" }
+            }
+          }
+        },
+        "required": [ "food_names", "table_number", "description", "time_of_the_day" ]
+      },
+      "update_order": {
+        "type": "object",
+        "properties": {
+          "food_names": {
+                "type": "array",
+                "items": { "type": "string" }
+           },
+          "description": { "type": "string" }
+        },
+        "required": [ "food_names", "description" ]
+      }
+    }
+  }
+}
