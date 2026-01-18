@@ -12,3 +12,6 @@ class NewOrderElement(BaseModel):
     table_number: int
     description: str
     time_of_the_day: TimeOfTheDay
+
+class OrderId(BaseModel):
+    id: int

@@ -29,7 +29,7 @@ class MenuServiceImpl(AddMenuItem):
 
 class MenuGet():
 
-    def getMenuItems(a): # needs a value ._.
+    def getMenuItems(self):
         db = SessionLocal()
 
         items = db.query(MenuItem).all()
