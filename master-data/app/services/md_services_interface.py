@@ -12,6 +12,7 @@ class MenuServiceImpl(AddMenuItem):
 
     def addItems(self, request: MenuRequest):
         db = SessionLocal()
+        
         menu_item = MenuItem(
             food_name=request.food_name,
             category=request.category,
@@ -24,7 +25,7 @@ class MenuServiceImpl(AddMenuItem):
         db.commit()
         db.refresh(menu_item)
         db.close()
-        return {"message": "Saved!", "id": menu_item.id}
+        return {"message": "Saved!"}
 
 class MenuGet():
 

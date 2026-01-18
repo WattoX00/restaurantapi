@@ -5,7 +5,7 @@ from enum import Enum
 class TimeOfTheDay(str, Enum):
     morning = "morning"
     noon = "noon"
-    afternoon = "afternoon" 
+    afternoon = "afternoon"
 
 class NewOrderElement(BaseModel):
     food_names: List[str]
