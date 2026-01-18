@@ -1,1 +1,0 @@
-# start the uvicorn server in the background -> start test page for orders (waiters)
