@@ -1,7 +1,8 @@
-# pydantic basemodel
 from pydantic import BaseModel
 from enum import Enum
-from typing import List
+from typing import List, Optional
+
+# for get menu req
 
 class Allergy(str, Enum):
     nuts = "nuts"
@@ -15,3 +16,18 @@ class MenuRequest(BaseModel):
     ingredients: List[str]
     allergies: List[Allergy]
     availability: bool
+
+# for delete and patch
+
+class MenuId(BaseModel):
+    id: int
+
+# for updating the menu
+
+class MenuItemUpdate(BaseModel):
+    food_name: Optional[str] = None
+    category: Optional[str] = None
+    price: Optional[int] = None
+    ingredients: Optional[list] = None
+    allergies: Optional[list] = None
+    availability: Optional[bool] = None
