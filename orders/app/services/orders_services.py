@@ -54,3 +54,23 @@ class ViewOrder():
             return {"message": "Item Not Found"}
         db.close()
         return item
+    
+class UpdateOrder():
+    def update_order(self, id: OrderId, orderUpdate: NewOrderElement):
+        
+        db = SessionLocal()
+        item = db.query(Orders).filter(Orders.id == id).first()
+
+        if not item:
+            db.close()
+            return {"message": "Item Not Found"}
+
+        update_data = orderUpdate.model_dump(exclude_unset=True)
+
+        for field, value in update_data.items():
+            setattr(item, field, value)
+
+        db.commit()
+        db.close()
+        
+        return {"message": "Updated"}
