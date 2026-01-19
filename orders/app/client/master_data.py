@@ -1,4 +1,3 @@
-# orders/clients/menu_client.py
 import httpx
 
 MENU_SERVICE_URL = "http://127.0.0.1:8001"
