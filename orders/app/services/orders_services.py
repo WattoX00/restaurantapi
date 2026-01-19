@@ -24,89 +24,83 @@ class AddNewOrder(NewOrder):
             if not menu_by_name[item_name]["availability"]:
                 raise HTTPException(400, f"{item_name} not available")
 
-        db = SessionLocal()
+        with SessionLocal() as db:
 
-        new_item = Orders(
-            food_names=orderList.food_names,
-            table_number=orderList.table_number,
-            description=orderList.description,
-            time_of_the_day=orderList.time_of_the_day
-        )
+            new_item = Orders(
+                food_names=orderList.food_names,
+                table_number=orderList.table_number,
+                description=orderList.description,
+                time_of_the_day=orderList.time_of_the_day,
+                finsihed=orderList.finished
+            )
 
-        db.add(new_item)
-        db.commit()
-        db.refresh(new_item)
-        db.close()
-        return {"message": "Saved!"}
+            db.add(new_item)
+            db.commit()
+            db.refresh(new_item)
+            return {"message": "Saved!"}
 
 
 class ViewOrders():
     
     def view_orders(self):
 
-        db = SessionLocal()
+        with SessionLocal() as db:
+            items = db.query(Orders).all()
 
-        items = db.query(Orders).all()
+            list_of_orders = []
+            for item in items:
+                list_of_orders.append({
+                        "id": item.id,
+                        "food_names": item.food_names,
+                        "table_number": item.table_number,
+                        "description": item.description,
+                        "time_of_the_day": item.time_of_the_day,
+                        "finished": item.finished
+                    })
 
-        list_of_orders = []
-        for item in items:
-            list_of_orders.append({
-                    "id": item.id,
-                    "food_names": item.food_names,
-                    "table_number": item.table_number,
-                    "description": item.description,
-                    "time_of_the_day": item.time_of_the_day
-                })
-
-        db.close()
-        return list_of_orders
+            return list_of_orders
 
 
 class ViewOrder():
     def view_order(self, id: OrderId):
         
-        db = SessionLocal()
+        with SessionLocal() as db:
 
-        item = db.query(Orders).filter(Orders.id == id).first()
+            item = db.query(Orders).filter(Orders.id == id).first()
 
-        if not item:
-            db.close()
-            return {"message": "Item Not Found"}
-        db.close()
-        return item
+            if not item:
+                return {"message": "Item Not Found"}
+
+            return item
 
 
 class UpdateOrder():
     def update_order(self, id: OrderId, orderUpdate: NewOrderElement):
         
-        db = SessionLocal()
-        item = db.query(Orders).filter(Orders.id == id).first()
+        with SessionLocal() as db:
+            item = db.query(Orders).filter(Orders.id == id).first()
 
-        if not item:
-            db.close()
-            return {"message": "Item Not Found"}
+            if not item:
+                return {"message": "Item Not Found"}
 
-        update_data = orderUpdate.model_dump(exclude_unset=True)
+            update_data = orderUpdate.model_dump(exclude_unset=True)
 
-        for field, value in update_data.items():
-            setattr(item, field, value)
+            for field, value in update_data.items():
+                setattr(item, field, value)
 
-        db.commit()
-        db.close()
-        
-        return {"message": "Updated"}
-    
+            db.commit()
+            return {"message": "Updated"}
+
+
 class FinishOrder():
     def finish_order(self, id: OrderId):
 
-        db = SessionLocal()
-        item = db.query(Orders).filter(Orders.id == id).first()
+        with SessionLocal() as db:
+            item = db.query(Orders).filter(Orders.id == id).first()
 
-        if not item:
-            db.close()
-            return {"message": "Item Not Found"}
-        
-        db.delete(item)
-        db.commit()
-        db.close()
-        return {"message": "Order Finished"}
+            if not item:
+                return {"message": "Item Not Found"}
+
+            item.finished = True
+            db.commit()
+            return {"message": "Order Finished"}

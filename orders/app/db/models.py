@@ -11,3 +11,4 @@ class Orders(Base):
     table_number = Column(Integer, nullable=False)
     description = Column(JSON, nullable=True)
     time_of_the_day = Column(String, nullable=False)
+    finished = Column(Boolean, default=False)

@@ -12,6 +12,7 @@ class NewOrderElement(BaseModel):
     table_number: int
     description: str
     time_of_the_day: TimeOfTheDay
+    finished: bool
 
 class OrderId(BaseModel):
     id: int

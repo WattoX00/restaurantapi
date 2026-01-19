@@ -27,6 +27,6 @@ def view_order(id: int):
 def update_order(id: int, data: NewOrderElement):
     return update_selected_order.update_order(id, data)
 
-@router.delete("/finish_order/{id}")
-def delete_order(id: int):
+@router.patch("/finish_order/{id}")
+def patch_finish_order(id: int):
     return finish_order.finish_order(id)
