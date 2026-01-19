@@ -53,8 +53,10 @@ class MenuGet():
 class MenuServiceDlt(MenuItemId):
 
     def menuItemId(self, id: MenuId):
+
         db = SessionLocal()
         item = db.query(MenuItem).filter(MenuItem.id == id).first()
+        
         if not item:
             db.close()
             return {"Message": "Item Not found"}

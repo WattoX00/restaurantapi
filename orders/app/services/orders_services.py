@@ -74,3 +74,18 @@ class UpdateOrder():
         db.close()
         
         return {"message": "Updated"}
+    
+class FinishOrder():
+    def finish_order(self, id: OrderId):
+
+        db = SessionLocal()
+        item = db.query(Orders).filter(Orders.id == id).first()
+
+        if not item:
+            db.close()
+            return {"message": "Item Not Found"}
+        
+        db.delete(item)
+        db.commit()
+        db.close()
+        return {"message": "Order Finished"}
