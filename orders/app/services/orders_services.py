@@ -1,10 +1,28 @@
+from fastapi import HTTPException
+
 from schemas.orders_schemas import NewOrderElement, OrderId
 from interface.orders_interface import NewOrder
 from db.database import SessionLocal
 from db.models import Orders
+from client.master_data import get_menu_items
+
 
 class AddNewOrder(NewOrder):
     def add_new_order(self, orderList: NewOrderElement):
+        
+        menu = get_menu_items()
+
+        menu_by_name = {
+            m["food_name"]: m
+            for m in menu
+        }
+
+        for item_name in orderList.food_names:
+            if item_name not in menu_by_name:
+                raise HTTPException(400, f"{item_name} not on menu")
+
+            if not menu_by_name[item_name]["availability"]:
+                raise HTTPException(400, f"{item_name} not available")
 
         db = SessionLocal()
 
@@ -20,7 +38,8 @@ class AddNewOrder(NewOrder):
         db.refresh(new_item)
         db.close()
         return {"message": "Saved!"}
-    
+
+
 class ViewOrders():
     
     def view_orders(self):
@@ -42,6 +61,7 @@ class ViewOrders():
         db.close()
         return list_of_orders
 
+
 class ViewOrder():
     def view_order(self, id: OrderId):
         
@@ -54,7 +74,8 @@ class ViewOrder():
             return {"message": "Item Not Found"}
         db.close()
         return item
-    
+
+
 class UpdateOrder():
     def update_order(self, id: OrderId, orderUpdate: NewOrderElement):
         
