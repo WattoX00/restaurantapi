@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from datetime import date
-
 router = APIRouter()
 
 @router.get("/most_items_sold")
