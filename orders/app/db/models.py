@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, JSON
+from sqlalchemy import Column, Integer, String, Boolean, JSON, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -10,5 +10,5 @@ class Orders(Base):
     food_names = Column(JSON, nullable=False)
     table_number = Column(Integer, nullable=False)
     description = Column(JSON, nullable=True)
-    time_of_the_day = Column(String, nullable=False)
+    time = Column(DateTime, nullable=False)
     finished = Column(Boolean, default=False)

@@ -30,7 +30,7 @@ class AddNewOrder(NewOrder):
                 food_names=orderList.food_names,
                 table_number=orderList.table_number,
                 description=orderList.description,
-                time_of_the_day=orderList.time_of_the_day,
+                time=orderList.time,
                 finsihed=orderList.finished
             )
 
@@ -54,7 +54,7 @@ class ViewOrders():
                         "food_names": item.food_names,
                         "table_number": item.table_number,
                         "description": item.description,
-                        "time_of_the_day": item.time_of_the_day,
+                        "time": item.time,
                         "finished": item.finished
                     })
 
