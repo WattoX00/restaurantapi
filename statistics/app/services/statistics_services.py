@@ -1,27 +1,40 @@
 from client.orders import get_order_items
 from client.master_data import get_menu_items
+from collections import defaultdict
+from schemas.statistics_schemas import StarDate, EndDate
 
-class MostSoldItems():
-    def most_sold_items(self, start_date, end_date):
-        menu = get_menu_items() # array -> objets (key=id) -> food_name: str ; price: int
-        orders = get_order_items() # array -> objects (key=id) -> food_names: array(str) ; time of the order
+class MostSoldItems:
+    def most_sold_items(self, start_date: StarDate, end_date: EndDate):
+        menu = get_menu_items()   # [{food_name: str, price: int}]
+        orders = get_order_items()  # [{food_names: [str], time: datetime}]
 
-        # time: (date [datetime])
+        # food_name -> quantity sold
+        sold_count = defaultdict(int)
 
-        most_sold_items_list = {} # item_name: quantity
-        
-        # change it to only items sold inbetween the startdate and enddate!
-
+        # filter orders by date range
         for order in orders:
-            for food_name in order["food_names"]:
-                if food_name in most_sold_items_list:
-                    most_sold_items_list[food_name] += 1
-                else:
-                    most_sold_items_list[food_name] = 1
-        
-        menu_prices = { # foodname: price
+            order_time = order["time"]
+            if start_date <= order_time <= end_date:
+                for food_name in order["food_names"]:
+                    sold_count[food_name] += 1
+
+        # food_name -> price
+        menu_prices = {
             m["food_name"]: m["price"]
             for m in menu
         }
-        
-        # return a list of objects [{foodname: quant; reevenu}]
+
+        # build result list
+        result = []
+        for food_name, quantity in sold_count.items():
+            price = menu_prices.get(food_name, 0)
+            result.append({
+                "food_name": food_name,
+                "quantity": quantity,
+                "revenue": quantity * price
+            })
+
+        # optional: sort by quantity sold (descending)
+        result.sort(key=lambda x: x["quantity"], reverse=True)
+
+        return result
