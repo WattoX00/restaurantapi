@@ -1,3 +1,5 @@
+pip install -r requirements.txt
+
 This been read
 
 FastAPI routes:
