@@ -2,8 +2,9 @@ from client.orders import get_order_items
 from client.master_data import get_menu_items
 from collections import defaultdict
 from schemas.statistics_schemas import StarDate, EndDate
+from interface.statistics_interface import CheckTime
 
-class MostSoldItems:
+class MostSoldItems(CheckTime):
     def most_sold_items(self, start_date: StarDate, end_date: EndDate):
         menu = get_menu_items()   # [{food_name: str, price: int}]
         orders = get_order_items()  # [{food_names: [str], time: datetime}]
