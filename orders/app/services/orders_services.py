@@ -31,7 +31,7 @@ class AddNewOrder(NewOrder):
                 table_number=orderList.table_number,
                 description=orderList.description,
                 time=orderList.time,
-                finsihed=orderList.finished
+                finished=orderList.finished
             )
 
             db.add(new_item)

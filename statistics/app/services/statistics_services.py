@@ -3,6 +3,7 @@ from client.master_data import get_menu_items
 from collections import defaultdict
 from schemas.statistics_schemas import StarDate, EndDate
 from interface.statistics_interface import CheckTime
+from datetime import datetime
 
 class MostSoldItems(CheckTime):
     def most_sold_items(self, start_date: StarDate, end_date: EndDate):
@@ -14,7 +15,7 @@ class MostSoldItems(CheckTime):
 
         # filter orders by date range
         for order in orders:
-            order_time = order["time"]
+            order_time = datetime.fromisoformat(order["time"]).date()
             if start_date <= order_time <= end_date:
                 for food_name in order["food_names"]:
                     sold_count[food_name] += 1
@@ -48,7 +49,7 @@ class LeastItemsSold(CheckTime):
         sold_count = defaultdict(int)
 
         for order in orders:
-            order_time = order["time"]
+            order_time = datetime.fromisoformat(order["time"]).date()
             if start_date <= order_time <= end_date:
                 for food_name in order["food_names"]:
                     sold_count[food_name] += 1
