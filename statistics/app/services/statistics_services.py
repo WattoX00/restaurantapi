@@ -1,9 +1,13 @@
 from client.orders import get_order_items
 from client.master_data import get_menu_items
 from collections import defaultdict
-from schemas.statistics_schemas import StarDate, EndDate
+from schemas.statistics_schemas import StarDate, EndDate, Year, Month
 from interface.statistics_interface import CheckTime
+
+# outside imports
 from datetime import datetime
+from datetime import date
+import calendar
 
 class MostSoldItems(CheckTime):
     def most_sold_items(self, start_date: StarDate, end_date: EndDate):
@@ -72,6 +76,18 @@ class LeastItemsSold(CheckTime):
 
         return result
     
-class MonthlyData:
-    def monthly_data(self):
-        pass
+class MonthlyData():
+    def monthly_data(self, year: Year, month: Month):
+        # number of month comes in -> defines start_date and end_date
+        # look for the orders datase in that time period:
+            # get total revenue
+            # get how much items were sold by the time of the day
+        # need monthly salary + the time of the day
+    # return {total_revenu: morning:x; noon:x; afternoon:x}
+        month += 1
+
+        start_date = date(year, month, 1)
+        last_day = calendar.monthrange(year, month)[1]
+        end_date = date(year, month, last_day)
+
+        return start_date, end_date
