@@ -1,7 +1,7 @@
 from client.orders import get_order_items
 from client.master_data import get_menu_items
 from collections import defaultdict
-from schemas.statistics_schemas import StarDate, EndDate, Year, Month
+from schemas.statistics_schemas import StarDate, EndDate, Year, Month, time_of_day
 from interface.statistics_interface import CheckTime
 
 # outside imports
@@ -84,10 +84,42 @@ class MonthlyData():
             # get how much items were sold by the time of the day
         # need monthly salary + the time of the day
     # return {total_revenu: morning:x; noon:x; afternoon:x}
+
+        # date
         month += 1
 
         start_date = date(year, month, 1)
         last_day = calendar.monthrange(year, month)[1]
         end_date = date(year, month, last_day)
 
-        return start_date, end_date
+        # menu req
+        menu = get_menu_items()   # [{food_name: str, price: int}]
+        orders = get_order_items()  # [{food_names: [str], time: datetime}]
+
+        # food_name -> quantity sold; time_of_day(morning;noon;afternoon): str
+        sold_count = defaultdict(int)
+
+        # filter orders by date range
+        for order in orders:
+            order_dt = datetime.fromisoformat(order["time"])
+            if start_date <= order_dt.date() <= end_date:
+                tod = time_of_day(order_dt)
+                for food_name in order["food_names"]:
+                    sold_count[(food_name, tod)] += 1
+
+        menu_prices = {
+            m["food_name"]: m["price"]
+            for m in menu
+        }
+
+        revenue_result = 0
+        # build result list
+        revenue_result = int()
+        for (food_name, tod), quantity in sold_count.items():
+            price = menu_prices.get(food_name, 0)
+            revenue_result += quantity * price
+        sold_count_out = [
+            {"time_of_day": tod, "quantity": quantity}
+            for (food_name, tod), quantity in sold_count.items()
+        ]
+        return start_date, end_date, revenue_result, sold_count_out

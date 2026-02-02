@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, conint, field_validator
-from datetime import date
+from pydantic import BaseModel, conint
+from datetime import datetime, date
 
 # add time checking
 
@@ -9,18 +9,20 @@ class StarDate(BaseModel):
 class EndDate(BaseModel):
     end_date: date
 
-COMPANY_START_YEAR = 2018  # hardcode for now
-
 class Year(BaseModel):
-    year: int = Field(ge=COMPANY_START_YEAR)
-
-    @field_validator("year")
-    @classmethod
-    def not_in_future(cls, v):
-        current_year = datetime.now().year
-        if v > current_year:
-            raise ValueError("year cannot be in the future")
-        return v
+    year: int
 
 class Month(BaseModel):
     month: conint(ge=0, le=11)
+
+
+def time_of_day(dt: datetime) -> str:
+    h = dt.hour
+    if 6 <= h < 11:
+        return "morning"
+    if 11 <= h < 13:
+        return "noon"
+    if 13 <= h < 18:
+        return "afternoon"
+    return "outside_work_hours"
+
