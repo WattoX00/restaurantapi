@@ -123,3 +123,41 @@ class MonthlyData():
             for (food_name, tod), quantity in sold_count.items()
         ]
         return start_date, end_date, revenue_result, sold_count_out
+
+class MonthlyData():
+    def monthly_data(self, year: Year, month: Month):
+        month += 1
+
+        start_date = date(year, month, 1)
+        last_day = calendar.monthrange(year, month)[1]
+        end_date = date(year, month, last_day)
+
+        menu = get_menu_items()   # [{food_name: str, price: int}]
+        orders = get_order_items()  # [{food_names: [str], time: datetime}]
+
+        sold_count = defaultdict(int)
+        revenue_by_tod = defaultdict(int)
+
+        for order in orders:
+            order_dt = datetime.fromisoformat(order["time"])
+            if start_date <= order_dt.date() <= end_date:
+                tod = time_of_day(order_dt)
+                for food_name in order["food_names"]:
+                    sold_count[(food_name, tod)] += 1
+
+        menu_prices = {m["food_name"]: m["price"] for m in menu}
+
+        total_revenue = 0
+        for (food_name, tod), quantity in sold_count.items():
+            price = menu_prices.get(food_name, 0)
+            revenue = quantity * price
+            total_revenue += revenue
+            revenue_by_tod[tod] += revenue
+
+        return {
+            "total_revenue": total_revenue,
+            "morning": revenue_by_tod.get("morning", 0),
+            "noon": revenue_by_tod.get("noon", 0),
+            "afternoon": revenue_by_tod.get("afternoon", 0)
+        }
+
