@@ -1,38 +1,80 @@
+# Restaurant API
+
+A FastAPI backend API for managing a restaurant menu, orders, and sales statistics.
+
+## Installation
+
+Clone the repository and install dependencies:
+
 ```
 pip install -r requirements.txt
 ```
 
-This been read
+## Run the FastAPI server:
 
-FastAPI routes:
+```bash
+main.sh
+```
 
-MasterData (menu):
+## Open the APIs at:
 
-@router.get("/get_menu")
+```
+http://127.0.0.1:8001
+```
 
-@router.post("/new_item")
+```
+http://127.0.0.1:8002
+```
 
-@router.delete("/delete_item/{id}")
+```
+http://127.0.0.1:8003
+```
 
-@router.patch("/patch_item/{id}")
+## Interactive API docs:
 
-Orders: 
+/docs – Swagger UI
 
-@router.post("/add_order")
+/redoc – ReDoc
 
-@router.get("/view_orders")
+## Dependencies
 
-@router.get("/view_order/{id}")
+- fastapi[standard]
 
-@router.patch("/update_odrder/{id}")
+- uvicorn
 
-@router.patch("/finish_order/{id}")
+- sqlalchemy
 
+- python-jose[cryptography]
 
-Statistics:
+- passlib[bcrypt]
 
-@router.get("/most_items_sold")
+- python-multipart
 
-@router.get("/least_items_sold")
+## API Endpoints
 
-@router.get("/monthly_data")
+### Menu Management
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET    | `/get_menu` | Get all menu items |
+| POST   | `/new_item` | Add a new menu item |
+| DELETE | `/delete_item/{id}` | Delete a menu item |
+| PATCH  | `/patch_item/{id}` | Update a menu item |
+
+### Orders
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST   | `/add_order` | Create a new order (JSON: `food_names: List[str]`) |
+| GET    | `/view_orders` | Get all orders |
+| GET    | `/view_order/{id}` | Get a specific order |
+| PATCH  | `/update_odrder/{id}` | Update an order |
+| PATCH  | `/finish_order/{id}` | Mark an order as finished |
+
+### Statistics
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET    | `/most_items_sold` | Get most sold menu items |
+| GET    | `/least_items_sold` | Get least sold menu items |
+| GET    | `/monthly_data` | Get monthly sales data |
