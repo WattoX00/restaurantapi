@@ -2,7 +2,7 @@
 
 A FastAPI backend API for managing a restaurant menu, orders, and sales statistics.
 
-# Installation
+## Installation
 
 Clone the repository and install dependencies:
 
@@ -10,13 +10,13 @@ Clone the repository and install dependencies:
 pip install -r requirements.txt
 ```
 
-# Run the FastAPI server:
+## Run the FastAPI server:
 
 ```bash
 main.sh
 ```
 
-# Open the APIs at:
+## Open the APIs at:
 
 ```
 http://127.0.0.1:8001
@@ -30,13 +30,13 @@ http://127.0.0.1:8002
 http://127.0.0.1:8003
 ```
 
-# Interactive API docs:
+## Interactive API docs:
 
 /docs – Swagger UI
 
 /redoc – ReDoc
 
-# Dependencies
+## Dependencies
 
 - fastapi[standard]
 
@@ -50,9 +50,9 @@ http://127.0.0.1:8003
 
 - python-multipart
 
-# API Endpoints
+## API Endpoints
 
-## Menu Management
+### Menu Management
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
@@ -61,7 +61,7 @@ http://127.0.0.1:8003
 | DELETE | `/delete_item/{id}` | Delete a menu item |
 | PATCH  | `/patch_item/{id}` | Update a menu item |
 
-## Orders
+### Orders
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
@@ -71,7 +71,7 @@ http://127.0.0.1:8003
 | PATCH  | `/update_odrder/{id}` | Update an order |
 | PATCH  | `/finish_order/{id}` | Mark an order as finished |
 
-## Statistics
+### Statistics
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
