@@ -1,5 +1,1 @@
-fastapi
-uvicorn
-httpx
-pydantic
-python-jose
+
