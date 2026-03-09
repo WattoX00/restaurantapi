@@ -1,20 +1,21 @@
 # Restaurant API
 
-A FastAPI backend API for managing a restaurant menu, orders, and sales statistics.
+A FastAPI backend for managing a restaurant's menu, orders, and sales statistics.
 
-## Installation
+## 🚀 Installation
+
 <details>
-<summary>Click to expand</summary>
-Clone the repository and install dependencies:
+<summary>Clone the repository and install dependencies</summary>
 
 ```bash
-git clone https://github.com/wattox00/restaurantapi.git 
+git clone https://github.com/wattox00/restaurantapi.git
+cd restaurantapi
 ```
 
-then create a virtual enviroment
+Create a virtual environment
+
 <details>
-<summary>Click to expand</summary>
-  on linux
+<summary>Linux / macOS</summary>
   
   ```bash
   python -m venv .venv
@@ -22,66 +23,86 @@ then create a virtual enviroment
   ```
 
 </details>
-then run:
 
+<details>
+<summary>Windows</summary>
+
+```ps1
+python -m venv .venv
+.venv\Scripts\activate
 ```
-pip install -r requirements.txt
-```
+
 </details>
 
-## Run the FastAPI server:
-
-on linux:
+Install dependencies
 
 ```bash
-main.sh
+pip install -r requirements.txt
 ```
 
-on windows:
+</details>
 
-```
-main.ps1
-```
+## ⚡ Running the Server
+### Linux / macOS
 
-CTRL+click the links shows on the terminal (it will show the index.html 's path that you can acces) or manually open:
-## Open the APIs at:
-
-Menu
-```
-http://127.0.0.1:8001
+```bash
+./main.sh
 ```
 
-Orders
-```
-http://127.0.0.1:8002
-```
+### Windows
 
-Statistics
-```
-http://127.0.0.1:8003
+```ps1
+.\main.ps1
 ```
 
-## Interactive API docs:
+Once running, the terminal will display clickable links to access the frontend or open the URLs manually. 
 
-/docs – Swagger UI
+```bash
+<path-of-the-cloned-repo>/frontend/index.html
+```
 
-/redoc – ReDoc
+## 🌐 Accessing the APIs manually
 
-## Useage:
-There is the basic html that you can use to play around the routes, or you can make your own way..
-Get the menu, Pick items to order, execute order, view order on the orders tab, finish orders, repeat...
-Check statistics of the orders inside statistics and view the graphs.
+Menu: `http://127.0.0.1:8001`
 
-## Authentication:
+Orders: `http://127.0.0.1:8002`
 
-The app uses JWT authentication, its very basic setup.
-The credentials are `admin` `admin` everywhere on the login pages by default. Feel free to change those
-username: admin
-password: admin
+Statistics: `http://127.0.0.1:8003`
 
-## Dependencies
+### 📄 Interactive API Documentation
+
+Swagger UI: `/docs`
+
+ReDoc: `/redoc`
+
+# 🛠 Usage
+
+Use the built-in HTML interface to explore routes, or interact via your own client.
+
+```bash
+<path-of-the-cloned-repo>/frontend/index.html
+```
+
+Workflow: Get the menu > Select items > Create order > Track orders > Complete orders > Check statistics.
+
+View sales trends and graphs in the statistics tab.
+
+## 🔒 Authentication
+
+Uses basic JWT authentication.
+
+### Default credentials for all login pages:
+
+username: `admin`
+password: `admin`
+
+Feel free to change them as needed.
+
+## 📦 Dependencies
+
 <details>
-<summary>Click to expand</summary>
+<summary>Click to view</summary>
+
 - fastapi[standard]
 
 - uvicorn
@@ -97,8 +118,10 @@ password: admin
 </details>
 
 ## API Endpoints
+
 <details>
 <summary>Click to expand</summary>
+
 ### Menu Management
 
 | Method | Endpoint | Description |
@@ -127,4 +150,4 @@ password: admin
 | GET    | `/monthly_data` | Get monthly sales data |
 </details>
 
-FEEL FREE TO MODIFY ANYTHING AND EVERYTHING INSIDE THE APP :)
+# Feel free to modify anything inside the app to suit your needs!
