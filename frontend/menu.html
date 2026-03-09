@@ -10,6 +10,74 @@
             font-family:Arial, Helvetica, sans-serif;
         }
 
+    .navbar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.navbar a.back-btn {
+    text-decoration: none;
+    background: #4a90e2;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.navbar a.back-btn:hover {
+    background: #357bd8;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar .login-dropdown {
+    margin-left: auto;
+    position: relative;
+}
+
+.navbar .login-dropdown button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #2ecc71;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navbar .login-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    z-index: 1;
+}
+
+.navbar .login-dropdown-content a {
+    color: #333;
+    padding: 10px 12px;
+    text-decoration: none;
+    display: block;
+}
+
+.navbar .login-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.navbar .login-dropdown:hover .login-dropdown-content {
+    display: block;
+}
+
         body{
             background:#f4f6f9;
             padding:40px;
@@ -147,13 +215,22 @@
 <body>
 
 <div class="container">
+<div class="navbar">
+    <a href="index.html" class="back-btn">Main</a>
+    <div class="logo">Menu</div>
+    
+    <div class="login-dropdown">
+        <button>Login ▼</button>
+        <div class="login-dropdown-content">
+            <form id="loginForm" style="display:flex; flex-direction:column; gap:8px; padding:10px;">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" style="background:#4a90e2; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-    <h2>Login</h2>
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
 
     <h2>Add Menu Item</h2>
     <form id="addForm">
@@ -188,7 +265,7 @@
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username, password})
             });
-            
+
             const data = await res.json();
             if(res.ok){
                 token = data.access_token;
@@ -239,8 +316,7 @@
             items.forEach(item => {
                 const li = document.createElement("li");
                 li.textContent = `${item.id}: ${item.food_name} - ${item.category} - $${item.price} - Available: ${item.availability}`;
-                
-                // DELETE BUTTON
+
                 const delBtn = document.createElement("button");
                 delBtn.textContent = "Delete";
                 delBtn.onclick = async () => {
@@ -253,7 +329,7 @@
                     alert(data.message);
                     fetchMenu();
                 };
-                
+
                 const patchBtn = document.createElement("button");
                 patchBtn.textContent = "Toggle Availability";
                 patchBtn.onclick = async () => {
