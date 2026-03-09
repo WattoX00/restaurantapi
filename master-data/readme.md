@@ -5,14 +5,14 @@ This API manages the restaurant's menu and items with its own database. It does 
 ## Base URL
 
 ```
-http://localhost:8001/
+https://localhost:8001
 ```
 
-### Menu Management
+## Menu Management Endpoints
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET    | `/get_menu` | Get all menu items |
-| POST   | `/new_item` | Add a new menu item |
-| DELETE | `/delete_item/{id}` | Delete a menu item |
-| PATCH  | `/patch_item/{id}` | Update a menu item |
+| Method | Endpoint                 | Description             |
+| ------ | ----------------------- | ----------------------- |
+| GET    | `/get_menu`             | Retrieve all menu items |
+| POST   | `/new_item`             | Add a new menu item     |
+| DELETE | `/delete_item/{id}`     | Delete a menu item by ID |
+| PATCH  | `/patch_item/{id}`      | Update a menu item by ID |
