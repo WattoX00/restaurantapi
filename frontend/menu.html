@@ -1,9 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Menu Management</title>
+    <title>Menu</title>
+    <style>
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            padding:40px;
+            display:flex;
+            justify-content:center;
+        }
+
+        .container{
+            width:100%;
+            max-width:900px;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h2{
+            margin-top:25px;
+            margin-bottom:15px;
+            color:#333;
+            border-bottom:1px solid #eee;
+            padding-bottom:5px;
+        }
+
+        form{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+            margin-bottom:10px;
+        }
+
+        form input, form select{
+            padding:10px;
+            border:1px solid #ddd;
+            border-radius:6px;
+            font-size:14px;
+        }
+
+        form input:focus, form select:focus{
+            outline:none;
+            border-color:#4a90e2;
+        }
+
+        form button{
+            grid-column:span 2;
+            padding:10px;
+            border:none;
+            border-radius:6px;
+            background:#4a90e2;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.2s;
+        }
+
+        form button:hover{
+            background:#357bd8;
+        }
+
+        #refreshBtn{
+            margin-top:10px;
+            margin-bottom:15px;
+            padding:8px 14px;
+            border:none;
+            border-radius:6px;
+            background:#2ecc71;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        #refreshBtn:hover{
+            background:#27ae60;
+        }
+
+        ul{
+            list-style:none;
+        }
+
+        li{
+            background:#fafafa;
+            border:1px solid #eee;
+            padding:12px;
+            border-radius:6px;
+            margin-bottom:10px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        li button{
+            padding:6px 10px;
+            border:none;
+            border-radius:5px;
+            font-size:12px;
+            cursor:pointer;
+        }
+
+        li button:first-of-type{
+            background:#e74c3c;
+            color:white;
+        }
+
+        li button:first-of-type:hover{
+            background:#c0392b;
+        }
+
+        li button:last-of-type{
+            background:#f39c12;
+            color:white;
+        }
+
+        li button:last-of-type:hover{
+            background:#d68910;
+        }
+
+        @media(max-width:700px){
+            form{
+                grid-template-columns:1fr;
+            }
+
+            form button{
+                grid-column:span 1;
+            }
+
+            li{
+                flex-direction:column;
+                align-items:flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+
     <h2>Login</h2>
     <form id="loginForm">
         <input type="text" id="username" placeholder="Username" required>
@@ -29,10 +173,11 @@
     <button id="refreshBtn">Refresh Menu</button>
     <ul id="menuList"></ul>
 
-    <script>
+</div>
+
+<script>
         let token = "";
 
-        // LOGIN
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const username = document.getElementById("username").value;
@@ -53,7 +198,6 @@
             }
         });
 
-        // ADD ITEM
         document.getElementById("addForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             if(!token){ alert("Login first!"); return; }
@@ -85,7 +229,6 @@
             fetchMenu();
         });
 
-        // GET MENU ITEMS
         async function fetchMenu(){
             const res = await fetch("http://localhost:8001/get_menu");
             const items = await res.json();
@@ -111,7 +254,6 @@
                     fetchMenu();
                 };
                 
-                // PATCH/UPDATE BUTTON (simple toggle availability)
                 const patchBtn = document.createElement("button");
                 patchBtn.textContent = "Toggle Availability";
                 patchBtn.onclick = async () => {
@@ -137,8 +279,8 @@
 
         document.getElementById("refreshBtn").addEventListener("click", fetchMenu);
 
-        // Initial fetch
         fetchMenu();
-    </script>
+</script>
+
 </body>
 </html>
