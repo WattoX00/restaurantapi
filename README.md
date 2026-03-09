@@ -151,3 +151,22 @@ Feel free to change them as needed.
 </details>
 
 # Feel free to modify anything inside the app to suit your needs!
+
+## ❤️ Support
+
+If this project saved you time, taught you something, or made your day a little easier,
+you can support its development here:
+
+👉 **[Buy me a coffee via PayPal](https://www.paypal.com/paypalme/wattox)**
+
+Your support helps keep the project:
+- Actively maintained
+- Continuously improved
+- Free and open source
+
+Thanks for being part of the community 🤝
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for full details.
