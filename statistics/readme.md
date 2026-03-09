@@ -5,13 +5,13 @@ This API calculates statistics from your restaurant's master data and orders. It
 ## Base URL
 
 ```
-localhost:8003
+https://localhost:8003
 ```
 
 ## Available Routes
 
-| Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET    | `/most_items_sold` | Get most sold menu items |
-| GET    | `/least_items_sold` | Get least sold menu items |
-| GET    | `/monthly_data` | Get monthly sales data |
+| Method | Endpoint              | Description                     |
+| ------ | -------------------- | ------------------------------- |
+| GET    | `/most_items_sold`    | Retrieve the most sold menu items |
+| GET    | `/least_items_sold`   | Retrieve the least sold menu items |
+| GET    | `/monthly_data`       | Retrieve monthly sales statistics |
