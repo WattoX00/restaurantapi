@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from datetime import date
 from services.statistics_services import MostSoldItems, LeastItemsSold, MonthlyData
 
-from auth.orders_auth import authenticate_user, create_access_token, verify_token
+from auth.statistics_auth import authenticate_user, create_access_token, verify_token
 
 router = APIRouter()
 
