@@ -3,29 +3,60 @@
 A FastAPI backend API for managing a restaurant menu, orders, and sales statistics.
 
 ## Installation
-
+<details>
+<summary>Click to expand</summary>
 Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/wattox00/restaurantapi.git 
+```
+
+then create a virtual enviroment
+<details>
+<summary>Click to expand</summary>
+  on linux
+  
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate
+  ```
+
+</details>
+then run:
 
 ```
 pip install -r requirements.txt
 ```
+</details>
 
 ## Run the FastAPI server:
+
+on linux:
 
 ```bash
 main.sh
 ```
 
+on windows:
+
+```
+main.ps1
+```
+
+CTRL+click the links shows on the terminal (it will show the index.html 's path that you can acces) or manually open:
 ## Open the APIs at:
 
+Menu
 ```
 http://127.0.0.1:8001
 ```
 
+Orders
 ```
 http://127.0.0.1:8002
 ```
 
+Statistics
 ```
 http://127.0.0.1:8003
 ```
@@ -36,8 +67,21 @@ http://127.0.0.1:8003
 
 /redoc – ReDoc
 
-## Dependencies
+## Useage:
+There is the basic html that you can use to play around the routes, or you can make your own way..
+Get the menu, Pick items to order, execute order, view order on the orders tab, finish orders, repeat...
+Check statistics of the orders inside statistics and view the graphs.
 
+## Authentication:
+
+The app uses JWT authentication, its very basic setup.
+The credentials are `admin` `admin` everywhere on the login pages by default. Feel free to change those
+username: admin
+password: admin
+
+## Dependencies
+<details>
+<summary>Click to expand</summary>
 - fastapi[standard]
 
 - uvicorn
@@ -50,8 +94,11 @@ http://127.0.0.1:8003
 
 - python-multipart
 
-## API Endpoints
+</details>
 
+## API Endpoints
+<details>
+<summary>Click to expand</summary>
 ### Menu Management
 
 | Method | Endpoint | Description |
@@ -78,3 +125,6 @@ http://127.0.0.1:8003
 | GET    | `/most_items_sold` | Get most sold menu items |
 | GET    | `/least_items_sold` | Get least sold menu items |
 | GET    | `/monthly_data` | Get monthly sales data |
+</details>
+
+FEEL FREE TO MODIFY ANYTHING AND EVERYTHING INSIDE THE APP :)
