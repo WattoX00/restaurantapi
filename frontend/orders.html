@@ -4,6 +4,116 @@
 <meta charset="UTF-8">
 <title>Orders</title>
 
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:40px;
+    display:flex;
+    justify-content:center;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+    margin-top:25px;
+    margin-bottom:15px;
+    color:#333;
+    border-bottom:1px solid #eee;
+    padding-bottom:6px;
+}
+
+.section{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:10px;
+}
+
+.section input{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.section input:focus{
+    outline:none;
+    border-color:#4a90e2;
+}
+
+.section button{
+    grid-column:span 2;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:#4a90e2;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.section button:hover{
+    background:#357bd8;
+}
+
+#orders{
+    margin-top:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+#orders div{
+    background:#fafafa;
+    border:1px solid #eee;
+    padding:12px;
+    border-radius:6px;
+}
+
+#single_order{
+    margin-top:10px;
+    background:#fafafa;
+    border:1px solid #eee;
+    padding:12px;
+    border-radius:6px;
+    word-break:break-word;
+}
+
+label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:14px;
+}
+
+@media(max-width:700px){
+
+.section{
+    grid-template-columns:1fr;
+}
+
+.section button{
+    grid-column:span 1;
+}
+
+}
+</style>
+
 <script>
 const API_URL = "http://localhost:8002";
 let token = null;
@@ -120,38 +230,53 @@ async function finishOrder(){
 
 <body>
 
+<div class="container">
+
 <h2>Login</h2>
+<div class="section">
 <input id="username" placeholder="username">
 <input id="password" type="password" placeholder="password">
 <button onclick="login()">Login</button>
+</div>
 
 <h2>Add Order</h2>
+<div class="section">
 <input id="food_names" placeholder="pizza,burger">
 <input id="table_number" type="number" placeholder="table">
 <input id="description" placeholder="description">
 <button onclick="addOrder()">Add Order</button>
+</div>
 
 <h2>View All Orders</h2>
+<div class="section">
 <button onclick="viewOrders()">Load Orders</button>
+</div>
 <div id="orders"></div>
 
-
 <h2>View One Order</h2>
+<div class="section">
 <input id="view_id" type="number" placeholder="order id">
 <button onclick="viewOrder()">View</button>
+</div>
 <div id="single_order"></div>
 
 <h2>Update Order</h2>
+<div class="section">
 <input id="update_id" type="number" placeholder="order id">
 <input id="update_food_names" placeholder="pizza,burger">
 <input id="update_table_number" type="number" placeholder="table">
 <input id="update_description" placeholder="description">
 <label>Finished <input id="update_finished" type="checkbox"></label>
 <button onclick="updateOrder()">Update</button>
+</div>
 
 <h2>Finish Order</h2>
+<div class="section">
 <input id="finish_id" type="number" placeholder="order id">
 <button onclick="finishOrder()">Finish</button>
+</div>
+
+</div>
 
 </body>
 </html>

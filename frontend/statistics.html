@@ -4,9 +4,121 @@
 <meta charset="UTF-8">
 <title>Statistics</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6f9;
+padding:40px;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:100%;
+max-width:1000px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-top:30px;
+margin-bottom:15px;
+color:#333;
+border-bottom:1px solid #eee;
+padding-bottom:6px;
+}
+
+.section{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:10px;
+}
+
+.section input{
+padding:10px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
+}
+
+.section input:focus{
+outline:none;
+border-color:#4a90e2;
+}
+
+.section button{
+grid-column:span 2;
+padding:10px;
+border:none;
+border-radius:6px;
+background:#4a90e2;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
+
+.section button:hover{
+background:#357bd8;
+}
+
+.result{
+margin-top:15px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.result div{
+background:#fafafa;
+border:1px solid #eee;
+padding:10px;
+border-radius:6px;
+}
+
+.chart-container{
+margin-top:20px;
+background:#fafafa;
+border:1px solid #eee;
+border-radius:8px;
+padding:20px;
+}
+
+canvas{
+max-width:100%;
+}
+
+@media(max-width:700px){
+
+.section{
+grid-template-columns:1fr;
+}
+
+.section button{
+grid-column:span 1;
+}
+
+}
+</style>
+
 <script>
 const API_URL = "http://127.0.0.1:8003";
 let token = "";
+
+let mostChart = null;
+let leastChart = null;
+let monthlyChart = null;
 
 function setTodayDefaults(){
     const today = new Date().toISOString().split("T")[0];
@@ -47,10 +159,34 @@ async function mostSold(){
     const container = document.getElementById("most_result");
     container.innerHTML = "";
 
+    const labels = [];
+    const quantities = [];
+
     data.forEach(item=>{
         const div = document.createElement("div");
         div.textContent = "Food: " + item.food_name + " | Quantity: " + item.quantity + " | Revenue: " + item.revenue;
         container.appendChild(div);
+
+        labels.push(item.food_name);
+        quantities.push(item.quantity);
+    });
+
+    if(mostChart) mostChart.destroy();
+
+    const ctx = document.getElementById("most_chart").getContext("2d");
+    mostChart = new Chart(ctx,{
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Quantity Sold",
+                data:quantities
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{legend:{display:true}}
+        }
     });
 }
 
@@ -67,10 +203,33 @@ async function leastSold(){
     const container = document.getElementById("least_result");
     container.innerHTML = "";
 
+    const labels = [];
+    const quantities = [];
+
     data.forEach(item=>{
         const div = document.createElement("div");
         div.textContent = "Food: " + item.food_name + " | Quantity: " + item.quantity + " | Revenue: " + item.revenue;
         container.appendChild(div);
+
+        labels.push(item.food_name);
+        quantities.push(item.quantity);
+    });
+
+    if(leastChart) leastChart.destroy();
+
+    const ctx = document.getElementById("least_chart").getContext("2d");
+    leastChart = new Chart(ctx,{
+        type:"bar",
+        data:{
+            labels:labels,
+            datasets:[{
+                label:"Quantity Sold",
+                data:quantities
+            }]
+        },
+        options:{
+            responsive:true
+        }
     });
 }
 
@@ -104,34 +263,71 @@ async function monthlyData(){
     container.appendChild(div2);
     container.appendChild(div3);
     container.appendChild(div4);
+
+    if(monthlyChart) monthlyChart.destroy();
+
+    const ctx = document.getElementById("monthly_chart").getContext("2d");
+    monthlyChart = new Chart(ctx,{
+        type:"pie",
+        data:{
+            labels:["Morning","Noon","Afternoon"],
+            datasets:[{
+                data:[data.morning, data.noon, data.afternoon]
+            }]
+        },
+        options:{
+            responsive:true
+        }
+    });
 }
 </script>
 </head>
 
 <body onload="setTodayDefaults()">
 
+<div class="container">
+
 <h2>Login</h2>
+<div class="section">
 <input id="username" placeholder="username">
 <input id="password" type="password" placeholder="password">
 <button onclick="login()">Login</button>
+</div>
 
 <h2>Most Sold Items</h2>
+<div class="section">
 <input id="most_start" placeholder="YYYY-MM-DD">
 <input id="most_end" type="date">
 <button onclick="mostSold()">Get Most Sold</button>
-<div id="most_result"></div>
+</div>
+<div id="most_result" class="result"></div>
+<div class="chart-container">
+<canvas id="most_chart"></canvas>
+</div>
 
 <h2>Least Sold Items</h2>
+<div class="section">
 <input id="least_start" placeholder="YYYY-MM-DD">
 <input id="least_end" type="date">
 <button onclick="leastSold()">Get Least Sold</button>
-<div id="least_result"></div>
+</div>
+<div id="least_result" class="result"></div>
+<div class="chart-container">
+<canvas id="least_chart"></canvas>
+</div>
 
 <h2>Monthly Data</h2>
+<div class="section">
 <input id="year" placeholder="Year (e.g. 2026)">
 <input id="month" placeholder="Month 0-11">
 <button onclick="monthlyData()">Get Monthly Data</button>
-<div id="monthly_result"></div>
+</div>
+<div id="monthly_result" class="result"></div>
+<div class="chart-container">
+<canvas id="monthly_chart"></canvas>
+</div>
+
+</div>
 
 </body>
 </html>
