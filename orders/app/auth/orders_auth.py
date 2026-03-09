@@ -3,7 +3,7 @@ from jose import jwt, JWTError
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from .md_config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from .orders_config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 security = HTTPBearer()
 
@@ -37,4 +37,4 @@ def verify_token(
         return payload
 
     except JWTError:
- 
+        raise HTTPException(status_code=401, detail="Invalid token")
