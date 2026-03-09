@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Management</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <h2>Add Menu Item</h2>
+    <form id="addForm">
+        <input type="text" id="food_name" placeholder="Food Name" required>
+        <input type="text" id="category" placeholder="Category" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <input type="text" id="ingredients" placeholder="Ingredients" required>
+        <input type="text" id="allergies" placeholder="Allergies">
+        <select id="availability">
+            <option value="True">Available</option>
+            <option value="False">Not Available</option>
+        </select>
+        <button type="submit">Add Item</button>
+    </form>
+
+    <h2>Menu Items</h2>
+    <button id="refreshBtn">Refresh Menu</button>
+    <ul id="menuList"></ul>
+
+    <script>
+        let token = "";
+
+        // LOGIN
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const res = await fetch("http://localhost:8001/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username, password})
+            });
+            
+            const data = await res.json();
+            if(res.ok){
+                token = data.access_token;
+                alert("Login successful!");
+            } else {
+                alert(data.detail || "Login failed");
+            }
+        });
+
+        // ADD ITEM
+        document.getElementById("addForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if(!token){ alert("Login first!"); return; }
+
+            const food_name = document.getElementById("food_name").value;
+            const category = document.getElementById("category").value;
+            const price = parseFloat(document.getElementById("price").value);
+            const ingredients = document.getElementById("ingredients").value
+                .split(",")
+                .map(s => s.trim())
+                .filter(s => s);
+            const allergies = document.getElementById("allergies").value
+                .split(",")
+                .map(s => s.trim())
+                .filter(s => s);
+            const availability = document.getElementById("availability").value === "True";
+
+            const res = await fetch("http://localhost:8001/new_item", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({food_name, category, price, ingredients, allergies, availability})
+            });
+
+            const data = await res.json();
+            alert(data.message || "Added!");
+            fetchMenu();
+        });
+
+        // GET MENU ITEMS
+        async function fetchMenu(){
+            const res = await fetch("http://localhost:8001/get_menu");
+            const items = await res.json();
+
+            const ul = document.getElementById("menuList");
+            ul.innerHTML = "";
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `${item.id}: ${item.food_name} - ${item.category} - $${item.price} - Available: ${item.availability}`;
+                
+                // DELETE BUTTON
+                const delBtn = document.createElement("button");
+                delBtn.textContent = "Delete";
+                delBtn.onclick = async () => {
+                    if(!token){ alert("Login first!"); return; }
+                    const res = await fetch(`http://localhost:8001/delete_item/${item.id}`, {
+                        method: "DELETE",
+                        headers: {"Authorization": "Bearer " + token}
+                    });
+                    const data = await res.json();
+                    alert(data.message);
+                    fetchMenu();
+                };
+                
+                // PATCH/UPDATE BUTTON (simple toggle availability)
+                const patchBtn = document.createElement("button");
+                patchBtn.textContent = "Toggle Availability";
+                patchBtn.onclick = async () => {
+                    if(!token){ alert("Login first!"); return; }
+                    const res = await fetch(`http://localhost:8001/patch_item/${item.id}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({availability: !item.availability})
+                    });
+                    const data = await res.json();
+                    alert(data.message);
+                    fetchMenu();
+                };
+
+                li.appendChild(delBtn);
+                li.appendChild(patchBtn);
+                ul.appendChild(li);
+            });
+        }
+
+        document.getElementById("refreshBtn").addEventListener("click", fetchMenu);
+
+        // Initial fetch
+        fetchMenu();
+    </script>
+</body>
+</html>
