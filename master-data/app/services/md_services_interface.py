@@ -12,7 +12,7 @@ class MenuServiceImpl(AddMenuItem):
 
     def addItems(self, request: MenuRequest):
         db = SessionLocal()
-        
+
         menu_item = MenuItem(
             food_name=request.food_name,
             category=request.category,
@@ -56,7 +56,7 @@ class MenuServiceDlt(MenuItemId):
 
         db = SessionLocal()
         item = db.query(MenuItem).filter(MenuItem.id == id).first()
-        
+
         if not item:
             db.close()
             return {"Message": "Item Not found"}
@@ -77,7 +77,7 @@ class MenuServiceUpdate():
         if not item:
             db.close()
             return {"Message": "Item Not found"}
-        
+
         update_data = data.model_dump(exclude_unset=True)
 
         for field, value in update_data.items():

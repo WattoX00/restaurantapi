@@ -8,7 +8,7 @@ class Allergy(str, Enum):
     nuts = "nuts"
     gluten = "gluten"
     dairy = "dairy"
-    
+
 class MenuRequest(BaseModel):
     food_name: str
     category: str
