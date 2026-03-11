@@ -9,7 +9,7 @@ from client.master_data import get_menu_items
 
 class AddNewOrder(NewOrder):
     def add_new_order(self, orderList: NewOrderElement):
-        
+
         menu = get_menu_items()
 
         menu_by_name = {
@@ -41,7 +41,7 @@ class AddNewOrder(NewOrder):
 
 
 class ViewOrders():
-    
+
     def view_orders(self):
 
         with SessionLocal() as db:
@@ -63,7 +63,7 @@ class ViewOrders():
 
 class ViewOrder():
     def view_order(self, id: OrderId):
-        
+
         with SessionLocal() as db:
 
             item = db.query(Orders).filter(Orders.id == id).first()
@@ -76,7 +76,7 @@ class ViewOrder():
 
 class UpdateOrder():
     def update_order(self, id: OrderId, orderUpdate: NewOrderElement):
-        
+
         with SessionLocal() as db:
             item = db.query(Orders).filter(Orders.id == id).first()
 
