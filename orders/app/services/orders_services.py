@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from schemas.orders_schemas import NewOrderElement, OrderId
+from schemas.orders_schemas import NewOrderElement, UpdateOrder, OrderId
 from interface.orders_interface import NewOrder
 from db.database import SessionLocal
 from db.models import Orders
@@ -75,7 +75,7 @@ class ViewOrder():
 
 
 class UpdateOrder():
-    def update_order(self, id: OrderId, orderUpdate: NewOrderElement):
+    def update_order(self, id: OrderId, orderUpdate: UpdateOrderElement):
 
         with SessionLocal() as db:
             item = db.query(Orders).filter(Orders.id == id).first()
@@ -89,6 +89,8 @@ class UpdateOrder():
                 setattr(item, field, value)
 
             db.commit()
+            db.refresh(item)
+
             return {"message": "Updated"}
 
 
