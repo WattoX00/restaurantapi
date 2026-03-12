@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from schemas.orders_schemas import NewOrderElement, UpdateOrder, OrderId
+from schemas.orders_schemas import NewOrderElement, UpdateOrderElement, OrderId
 from interface.orders_interface import NewOrder
 from db.database import SessionLocal
 from db.models import Orders
