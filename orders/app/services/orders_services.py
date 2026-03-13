@@ -73,9 +73,8 @@ class ViewOrder():
 
             return item
 
-
 class UpdateOrder():
-    def update_order(self, id: OrderId, orderUpdate: UpdateOrderElement):
+    def update_order(self, id: int, orderUpdate: UpdateOrderElement):
 
         with SessionLocal() as db:
             item = db.query(Orders).filter(Orders.id == id).first()
@@ -85,14 +84,33 @@ class UpdateOrder():
 
             update_data = orderUpdate.model_dump(exclude_unset=True)
 
+            # Handle food_names separately (append instead of overwrite)
+            if "food_names" in update_data:
+                new_foods = update_data.pop("food_names")
+
+                if item.food_names:
+                    item.food_names = item.food_names + new_foods
+                else:
+                    item.food_names = new_foods
+
+            # Update the remaining fields normally
             for field, value in update_data.items():
                 setattr(item, field, value)
 
             db.commit()
             db.refresh(item)
 
-            return {"message": "Updated"}
-
+            return {
+                "message": "Updated",
+                "order": {
+                    "id": item.id,
+                    "food_names": item.food_names,
+                    "table_number": item.table_number,
+                    "description": item.description,
+                    "time": item.time,
+                    "finished": item.finished
+                }
+            }
 
 class FinishOrder():
     def finish_order(self, id: OrderId):
