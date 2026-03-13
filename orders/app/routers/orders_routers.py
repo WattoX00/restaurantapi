@@ -38,6 +38,10 @@ def add_order(data: NewOrderElement):
 def view_orders():
     return view_current_orders.view_orders()
 
+@router.get("/view_finished")
+def view_finished():
+    return view_finished_orders.view_finished_orders()
+
 @router.get("/view_order/{id}")
 def view_order(id: int):
     return view_current_order.view_order(id)

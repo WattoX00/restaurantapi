@@ -41,7 +41,6 @@ class AddNewOrder(NewOrder):
 
 
 class ViewOrders():
-
     def view_orders(self):
 
         with SessionLocal() as db:
@@ -59,7 +58,6 @@ class ViewOrders():
                     })
 
             return list_of_orders
-
 
 class ViewOrder():
     def view_order(self, id: OrderId):
