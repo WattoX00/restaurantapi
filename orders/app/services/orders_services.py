@@ -41,7 +41,6 @@ class AddNewOrder(NewOrder):
 
 
 class ViewOrders():
-
     def view_orders(self):
 
         with SessionLocal() as db:
@@ -49,17 +48,37 @@ class ViewOrders():
 
             list_of_orders = []
             for item in items:
-                list_of_orders.append({
-                        "id": item.id,
-                        "food_names": item.food_names,
-                        "table_number": item.table_number,
-                        "description": item.description,
-                        "time": item.time,
-                        "finished": item.finished
-                    })
+                if not item.finished:
+                    list_of_orders.append({
+                            "id": item.id,
+                            "food_names": item.food_names,
+                            "table_number": item.table_number,
+                            "description": item.description,
+                            "time": item.time,
+                            "finished": item.finished
+                        })
 
             return list_of_orders
 
+class ViewFinished():
+    def view_finished_orders(self):
+
+        with SessionLocal() as db:
+            items = db.query(Orders).all()
+
+            list_of_orders = []
+            for item in items:
+                if item.finished:
+                    list_of_orders.append({
+                            "id": item.id,
+                            "food_names": item.food_names,
+                            "table_number": item.table_number,
+                            "description": item.description,
+                            "time": item.time,
+                            "finished": item.finished
+                        })
+
+            return list_of_orders
 
 class ViewOrder():
     def view_order(self, id: OrderId):
