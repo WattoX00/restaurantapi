@@ -378,7 +378,7 @@ async function monthlyData(){
 
     <h2>Most Sold Items</h2>
     <div class="section">
-        <input id="most_start" placeholder="YYYY-MM-DD">
+        <input id="most_start" type="date">
         <input id="most_end" type="date">
         <button onclick="mostSold()">Get Most Sold</button>
     </div>
@@ -390,7 +390,7 @@ async function monthlyData(){
 
     <h2>Least Sold Items</h2>
     <div class="section">
-        <input id="least_start" placeholder="YYYY-MM-DD">
+        <input id="least_start" type="date">
         <input id="least_end" type="date">
         <button onclick="leastSold()">Get Least Sold</button>
     </div>
@@ -401,8 +401,8 @@ async function monthlyData(){
 
     <h2>Monthly Data</h2>
     <div class="section">
-        <input id="year" placeholder="Year (e.g. 2026)">
-        <input id="month" placeholder="Month 0-11">
+        <input id="year" type="number" min="2000" max="2100" placeholder="Year (e.g. 2026)">
+        <input id="month" type="number" min="1" max="12" placeholder="Month (1-12)">
         <button onclick="monthlyData()">Get Monthly Data</button>
     </div>
     <div id="monthly_result" class="result"></div>
