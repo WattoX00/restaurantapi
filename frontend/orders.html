@@ -162,7 +162,21 @@
       padding:12px;
       border-radius:6px;
   }
+ 
+#finished_orders{
+      margin-top:15px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+}
 
+#finished_orders div{
+      background:#e8f8f0;
+      border:1px solid #c6f0da;
+      padding:12px;
+      border-radius:6px;
+}
+ 
 #single_order{
       margin-top:10px;
       background:#fafafa;
@@ -246,6 +260,20 @@ async function viewOrders(){
     const container = document.getElementById("orders");
     container.innerHTML = "";
 
+    data.forEach(o=>{
+        const div = document.createElement("div");
+        div.textContent = `ID:${o.id} | Table:${o.table_number} | Foods:${o.food_names.join(",")} | Finished:${o.finished}`;
+        container.appendChild(div);
+    });
+}
+
+async function viewFinishedOrders(){
+    const res = await fetch(`${API_URL}/view_finished`);
+    const data = await res.json();
+ 
+    const container = document.getElementById("finished_orders");
+    container.innerHTML = "";
+ 
     data.forEach(o=>{
         const div = document.createElement("div");
         div.textContent = `ID:${o.id} | Table:${o.table_number} | Foods:${o.food_names.join(",")} | Finished:${o.finished}`;
