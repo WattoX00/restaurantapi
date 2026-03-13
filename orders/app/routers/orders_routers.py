@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from services.orders_services import AddNewOrder, ViewOrders, ViewOrder, UpdateOrder, FinishOrder
+from services.orders_services import AddNewOrder, ViewOrders, ViewFinished, ViewOrder, UpdateOrder, FinishOrder
 from schemas.orders_schemas import NewOrderElement
 
 from auth.orders_auth import authenticate_user, create_access_token, verify_token
@@ -14,6 +14,7 @@ class LoginData(BaseModel):
 
 add_new_order = AddNewOrder()
 view_current_orders = ViewOrders()
+view_finished_orders = ViewFinished()
 view_current_order = ViewOrder()
 update_selected_order = UpdateOrder()
 finish_order = FinishOrder()
