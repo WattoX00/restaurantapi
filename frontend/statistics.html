@@ -306,51 +306,43 @@ async function leastSold(){
     });
 }
 
-async function monthlyData(){
-    const year = document.getElementById("year").value;
-    const month = document.getElementById("month").value;
+async function monthlyData() {
+    const dateInput = document.getElementById("monthPicker").value;
 
-    const res = await fetch(API_URL + "/monthly_data?year=" + year + "&month=" + month, {
+    if (!dateInput) {
+        alert("Please select a month.");
+        return;
+    }
+
+    // Convert to JS Date object
+    const selectedDate = new Date(dateInput);
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1; // getMonth() is 0-indexed
+
+    const res = await fetch(API_URL + `/monthly_data?year=${year}&month=${month}`, {
         method: "GET",
-        headers: {"Authorization":"Bearer " + token}
+        headers: { "Authorization": "Bearer " + token }
     });
 
     const data = await res.json();
-
     const container = document.getElementById("monthly_result");
-    container.innerHTML = "";
+    container.innerHTML = `
+        <div>Total Revenue: ${data.total_revenue}</div>
+        <div>Morning Revenue: ${data.morning}</div>
+        <div>Noon Revenue: ${data.noon}</div>
+        <div>Afternoon Revenue: ${data.afternoon}</div>
+    `;
 
-    const div1 = document.createElement("div");
-    div1.textContent = "Total Revenue: " + data.total_revenue;
-
-    const div2 = document.createElement("div");
-    div2.textContent = "Morning Revenue: " + data.morning;
-
-    const div3 = document.createElement("div");
-    div3.textContent = "Noon Revenue: " + data.noon;
-
-    const div4 = document.createElement("div");
-    div4.textContent = "Afternoon Revenue: " + data.afternoon;
-
-    container.appendChild(div1);
-    container.appendChild(div2);
-    container.appendChild(div3);
-    container.appendChild(div4);
-
-    if(monthlyChart) monthlyChart.destroy();
+    if (monthlyChart) monthlyChart.destroy();
 
     const ctx = document.getElementById("monthly_chart").getContext("2d");
-    monthlyChart = new Chart(ctx,{
-        type:"pie",
-        data:{
-            labels:["Morning","Noon","Afternoon"],
-            datasets:[{
-                data:[data.morning, data.noon, data.afternoon]
-            }]
+    monthlyChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: ["Morning", "Noon", "Afternoon"],
+            datasets: [{ data: [data.morning, data.noon, data.afternoon] }]
         },
-        options:{
-            responsive:true
-        }
+        options: { responsive: true }
     });
 }
 </script>
@@ -399,14 +391,15 @@ async function monthlyData(){
         <canvas id="least_chart"></canvas>
     </div>
 
+
     <h2>Monthly Data</h2>
     <div class="section">
-        <input id="year" type="number" min="2000" max="2100" placeholder="Year (e.g. 2026)">
-        <input id="month" type="number" min="1" max="12" placeholder="Month (1-12)">
+        <input id="monthPicker" type="date" placeholder="Select Year & Month">
         <button onclick="monthlyData()">Get Monthly Data</button>
     </div>
+
     <div id="monthly_result" class="result"></div>
-        <div class="chart-container">
+    <div class="chart-container">
         <canvas id="monthly_chart"></canvas>
     </div>
 
