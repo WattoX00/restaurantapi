@@ -18,125 +18,244 @@ echo "Token received."
 
 echo "Pushing mock item..."
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "Cappuccino"
-  ],
+  "food_names": ["Tomato Basil Soup","Garlic Bread"],
   "table_number": 1,
-  "description": "Morning coffee",
-  "time": "2026-03-15T08:12:33Z",
+  "description": "Lunch order",
+  "time": "2026-03-15T12:00:00Z",
   "finished": true
 }'
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "Tomato Basil Soup",
-    "Grilled Salmon"
-  ],
+  "food_names": ["Chicken Wings","Chicken Wings","Iced Tea"],
   "table_number": 2,
-  "description": "Customer allergic to gluten",
-  "time": "2026-03-15T12:21:10Z",
+  "description": "Shared appetizer",
+  "time": "2026-03-15T08:00:00Z",
   "finished": true
 }'
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "Fresh Lemonade",
-    "Vegetable Stir Fry",
-    "Vanilla Ice Cream"
-  ],
+  "food_names": ["Beef Goulash","Garlic Bread","Fresh Lemonade"],
   "table_number": 3,
-  "description": "Avoid dairy",
-  "time": "2026-03-15T16:05:44Z",
-  "finished": false
+  "description": "Dinner",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
 }'
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "French Onion Soup"
-  ],
+  "food_names": ["Chicken Alfredo","Orange Juice"],
   "table_number": 4,
-  "description": "Gluten allergy",
-  "time": "2026-03-15T08:47:12Z",
+  "description": "Quick meal",
+  "time": "2026-03-15T12:00:00Z",
   "finished": true
 }'
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "Spaghetti Carbonara",
-    "Cappuccino",
-    "Cheesecake"
-  ],
+  "food_names": ["French Onion Soup","Bruschetta","Cappuccino"],
   "table_number": 5,
-  "description": "Contains dairy and gluten",
-  "time": "2026-03-15T12:09:51Z",
-  "finished": false
-}'
-
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "food_names": [
-    "Miso Soup",
-    "Vegetable Stir Fry"
-  ],
-  "table_number": 6,
-  "description": "Customer avoiding dairy",
-  "time": "2026-03-15T16:31:22Z",
-  "finished": false
-}'
-
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "food_names": [
-    "Chicken Noodle Soup",
-    "Steak with Garlic Butter",
-    "Orange Juice"
-  ],
-  "table_number": 7,
-  "description": "Gluten allergy noted",
-  "time": "2026-03-15T12:55:18Z",
+  "description": "Light lunch",
+  "time": "2026-03-15T08:00:00Z",
   "finished": true
 }'
 
-curl -s -X POST "$BASE_URL/add_order" \
-  -H "accept: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
   -d '{
-  "food_names": [
-    "Iced Tea",
-    "Chocolate Lava Cake"
-  ],
+  "food_names": ["Steak with Garlic Butter","Steak with Garlic Butter","Iced Tea"],
+  "table_number": 6,
+  "description": "Two steaks",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Pumpkin Soup","Garlic Bread","Garlic Bread"],
+  "table_number": 7,
+  "description": "Soup and sides",
+  "time": "2026-03-15T12:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Apple Pie","Vanilla Ice Cream"],
   "table_number": 8,
-  "description": "Contains dairy",
-  "time": "2026-03-15T16:44:03Z",
-  "finished": false
+  "description": "Dessert",
+  "time": "2026-03-15T08:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Chicken Noodle Soup","Bruschetta","Fresh Lemonade"],
+  "table_number": 9,
+  "description": "Lunch combo",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Strawberry Milkshake","Apple Pie","Apple Pie"],
+  "table_number": 10,
+  "description": "Sweet order",
+  "time": "2026-03-15T12:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Stuffed Mushrooms","Chicken Wings","Iced Tea"],
+  "table_number": 11,
+  "description": "Appetizers",
+  "time": "2026-03-15T08:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Steak with Garlic Butter","Beef Goulash","Fresh Lemonade"],
+  "table_number": 12,
+  "description": "Large meal",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Cappuccino","Apple Pie"],
+  "table_number": 13,
+  "description": "Coffee break",
+  "time": "2026-03-15T12:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Chicken Alfredo","Garlic Bread","Garlic Bread","Orange Juice"],
+  "table_number": 14,
+  "description": "Family meal",
+  "time": "2026-03-15T08:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Pumpkin Soup","Bruschetta","Iced Tea"],
+  "table_number": 15,
+  "description": "Afternoon meal",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Vanilla Ice Cream","Vanilla Ice Cream","Strawberry Milkshake"],
+  "table_number": 16,
+  "description": "Desserts",
+  "time": "2026-03-15T12:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Chicken Wings","Chicken Wings","Chicken Wings","Fresh Lemonade"],
+  "table_number": 17,
+  "description": "Wings table",
+  "time": "2026-03-15T08:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Beef Goulash","Pumpkin Soup","Garlic Bread"],
+  "table_number": 18,
+  "description": "Hearty order",
+  "time": "2026-03-15T16:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Tomato Basil Soup","Chicken Noodle Soup","Orange Juice"],
+  "table_number": 19,
+  "description": "Soup combo",
+  "time": "2026-03-15T12:00:00Z",
+  "finished": true
+}'
+
+curl -X 'POST' \
+  'http://127.0.0.1:8002/add_order' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "food_names": ["Steak with Garlic Butter","Apple Pie","Cappuccino"],
+  "table_number": 20,
+  "description": "Dinner and dessert",
+  "time": "2026-03-15T08:00:00Z",
+  "finished": true
 }'
 
 echo ""
