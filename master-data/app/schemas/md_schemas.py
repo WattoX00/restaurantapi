@@ -12,7 +12,7 @@ class Allergy(str, Enum):
 class MenuRequest(BaseModel):
     food_name: str
     category: str
-    price: int
+    price: float
     ingredients: List[str]
     allergies: List[Allergy]
     availability: bool
@@ -26,7 +26,7 @@ class MenuId(BaseModel):
 
 class MenuItemUpdate(BaseModel):
     food_name: Optional[str] = None
-    category: Optional[str] = None
+    category: Optional[float] = None
     price: Optional[int] = None
     ingredients: Optional[list] = None
     allergies: Optional[list] = None
