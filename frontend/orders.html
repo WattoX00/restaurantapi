@@ -204,6 +204,41 @@
     }
 
   }
+  #toast-container{
+    position:fixed;
+    top:20px;
+    right:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:9999;
+}
+
+.toast{
+    min-width:220px;
+    padding:12px 16px;
+    border-radius:8px;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+    animation:slideIn 0.3s ease;
+}
+
+.toast.success{ background:#2ecc71; }
+.toast.error{ background:#e74c3c; }
+.toast.warning{ background:#f39c12; }
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateX(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 </style>
 
 <script>
@@ -224,9 +259,9 @@ async function login() {
 
     if(res.ok){
         token = data.access_token;
-        alert("Logged in");
+        showToast("Login successful!", "success");
     }else{
-        alert("Login failed");
+        showToast(data.detail || "Login failed", "error");
     }
 }
 
@@ -250,7 +285,12 @@ async function addOrder(){
     });
 
     const data = await res.json();
-    alert(JSON.stringify(data));
+
+    if(res.ok){
+        showToast("Order added successfully!", "success");
+    }else{
+        showToast(data.detail || "Failed to add order", "error");
+    }
 }
 
 async function viewOrders(){
@@ -315,7 +355,12 @@ async function updateOrder(){
     });
 
     const data = await res.json();
-    alert(JSON.stringify(data));
+
+    if(res.ok){
+        showToast("Order updated successfully", "success");
+    }else{
+        showToast(data.detail || "Failed to update order", "error");
+    }
 }
 
 async function finishOrder(){
@@ -329,7 +374,28 @@ async function finishOrder(){
     });
 
     const data = await res.json();
-    alert(JSON.stringify(data));
+
+    if(res.ok){
+        showToast("Order marked as finished", "success");
+    }else{
+        showToast(data.detail || "Failed to finish order", "error");
+    }
+}
+
+function showToast(message, type="success", duration=3000){
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(30px)";
+        setTimeout(()=> toast.remove(),300);
+    }, duration);
 }
 </script>
 </head>
@@ -401,6 +467,8 @@ async function finishOrder(){
     </div>
 
 </div>
+
+<div id="toast-container"></div>
 
 </body>
 </html>
