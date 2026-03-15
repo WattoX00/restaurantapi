@@ -98,25 +98,27 @@ View sales trends and graphs in the statistics tab.
 
 ## Mock data
 
-Run Mock data:
+Run the mock data scripts to generate sample data for the API.
+
+Note: The mock data was generated on 2026-03-15, so statistics are only available starting from that date.
+
+Make sure you are in the correct directory:
+
+```bash
+cd restaurantapi/mock
+```
 
 <details>
 <summary>Linux / macOS</summary>
 
-Make sure to be in the correct directory (restaurantapi/mock)
-
-```bash
-cd mock
-```
-
-For the menu mock:
+Menu mock:
 
 ```bash
 chmod +x mock_menu.sh
 ./mock_menu.sh
 ```
 
-For the orders mock:
+Orders mock:
 
 ```bash
 chmod +x mock_orders.sh
@@ -125,7 +127,23 @@ chmod +x mock_orders.sh
 
 </details>
 
-KEEP IN MIND THAT THE MOCK DATA WAS CREATED AT 2026-03-15 WHICH MEANS THE STATISTICS IS AVAILABLE FOR THAT PERIOD OF TIME.
+<details>
+<summary>Windows</summary>
+Use Windows Subsystem for Linux (WSL) and follow the linux/macos guide above
+
+OR If Git Bash is installed, you can also run the scripts from PowerShell:
+
+```bash
+bash mock_menu.sh
+```
+
+For orders:
+
+```bash
+bash mock_orders.sh
+```
+
+</details>
 
 ## 🔒 Authentication
 
