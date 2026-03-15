@@ -226,5 +226,135 @@ curl -s -X POST "$BASE_URL/new_item" \
     "availability": true
   }'
 
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Pumpkin Soup",
+    "category": "Soup",
+    "price": 6.2,
+    "ingredients": ["pumpkin","onion","cream","nutmeg"],
+    "allergies": ["dairy"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Beef Goulash",
+    "category": "Main Dish",
+    "price": 17.5,
+    "ingredients": ["beef","paprika","onion","potato"],
+    "allergies": [],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Chicken Alfredo",
+    "category": "Main Dish",
+    "price": 16.2,
+    "ingredients": ["chicken","fettuccine","cream","parmesan"],
+    "allergies": ["gluten","dairy"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Apple Pie",
+    "category": "Dessert",
+    "price": 6.8,
+    "ingredients": ["apple","flour","butter","sugar"],
+    "allergies": ["gluten","dairy"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Strawberry Milkshake",
+    "category": "Drink",
+    "price": 4.5,
+    "ingredients": ["strawberry","milk","sugar","ice cream"],
+    "allergies": ["dairy"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Garlic Bread",
+    "category": "Appetizer",
+    "price": 4.5,
+    "ingredients": ["bread","garlic","butter","parsley"],
+    "allergies": ["gluten","dairy"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Bruschetta",
+    "category": "Appetizer",
+    "price": 5.0,
+    "ingredients": ["bread","tomato","garlic","olive oil","basil"],
+    "allergies": ["gluten"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Mozzarella Sticks",
+    "category": "Appetizer",
+    "price": 6.2,
+    "ingredients": ["mozzarella","breadcrumbs","egg","flour"],
+    "allergies": ["dairy","gluten","egg"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Stuffed Mushrooms",
+    "category": "Appetizer",
+    "price": 5.8,
+    "ingredients": ["mushroom","cream cheese","garlic","breadcrumbs"],
+    "allergies": ["dairy","gluten"],
+    "availability": true
+  }'
+
+curl -s -X POST "$BASE_URL/new_item" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "food_name": "Chicken Wings",
+    "category": "Appetizer",
+    "price": 7.5,
+    "ingredients": ["chicken wings","hot sauce","butter","spices"],
+    "allergies": ["dairy"],
+    "availability": true
+  }'
+
 echo ""
 echo "Done."
