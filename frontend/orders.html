@@ -178,14 +178,87 @@
 }
  
 #single_order{
-      margin-top:10px;
-      background:#fafafa;
-      border:1px solid #eee;
-      padding:12px;
-      border-radius:6px;
-      word-break:break-word;
-  }
+    margin-top:15px;
+}
 
+.order-card{
+    max-width:420px;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #dcdcdc;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    background:#ffffff;
+    font-family:Arial, sans-serif;
+}
+
+.order-header{
+    background:#2f6fed;
+    color:#ffffff;
+    padding:12px 16px;
+    font-size:18px;
+    font-weight:bold;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.order-body{
+    padding:16px;
+}
+
+.order-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    padding-bottom:6px;
+    border-bottom:1px solid #f0f0f0;
+}
+
+.order-label{
+    font-weight:600;
+    color:#555;
+}
+
+.order-value{
+    color:#222;
+}
+
+.food-list{
+    margin:8px 0 12px 0;
+    padding-left:18px;
+}
+
+.food-list li{
+    margin-bottom:4px;
+}
+
+.order-description{
+    background:#f6f8fb;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #e6eaf2;
+    font-size:14px;
+}
+
+.order-status{
+    margin-top:14px;
+    padding:8px;
+    text-align:center;
+    border-radius:6px;
+    font-weight:600;
+}
+
+.status-finished{
+    background:#e6f6ec;
+    color:#1e7e34;
+    border:1px solid #bfe5c9;
+}
+
+.status-progress{
+    background:#fff4e5;
+    color:#b26a00;
+    border:1px solid #ffe0b3;
+}
   label{
       display:flex;
       align-items:center;
@@ -321,13 +394,48 @@ async function viewFinishedOrders(){
     });
 }
 
-async function viewOrder(){
+async function viewOrder() {
     const id = document.getElementById("view_id").value;
 
     const res = await fetch(`${API_URL}/view_order/${id}`);
     const data = await res.json();
 
-    document.getElementById("single_order").textContent = JSON.stringify(data);
+    const container = document.getElementById("single_order");
+
+    container.innerHTML = `
+        <div class="order-card">
+
+            <div class="order-header">
+                <span>Order #${data.id}</span>
+                <span>Table ${data.table_number}</span>
+            </div>
+
+            <div class="order-body">
+
+                <div class="order-row">
+                    <span class="order-label">Time</span>
+                    <span class="order-value">${new Date(data.time).toLocaleString()}</span>
+                </div>
+
+                <div>
+                    <div class="order-label">Foods</div>
+                    <ul class="food-list">
+                        ${data.food_names.map(food => `<li>${food}</li>`).join("")}
+                    </ul>
+                </div>
+
+                <div class="order-label">Description</div>
+                <div class="order-description">
+                    ${data.description || "None"}
+                </div>
+
+                <div class="order-status ${data.finished ? "status-finished" : "status-progress"}">
+                    ${data.finished ? "Finished" : "In Progress"}
+                </div>
+
+            </div>
+        </div>
+    `;
 }
 
 async function updateOrder(){
