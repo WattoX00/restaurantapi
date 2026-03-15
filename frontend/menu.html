@@ -155,22 +155,73 @@
 
         ul{
             list-style:none;
+            padding:0;
+        }
+
+        .menu-toolbar{
+            display:flex;
+            gap:10px;
+            margin-bottom:15px;
+        }
+
+        .menu-toolbar button{
+            padding:8px 12px;
+            border:none;
+            border-radius:6px;
+            background:#3498db;
+            color:white;
+            cursor:pointer;
+        }
+
+        .menu-toolbar button:hover{
+            background:#2980b9;
         }
 
         li{
-            background:#fafafa;
+            background:white;
             border:1px solid #eee;
-            padding:12px;
-            border-radius:6px;
+            padding:14px;
+            border-radius:8px;
             margin-bottom:10px;
-            display:flex;
-            justify-content:space-between;
+
+            display:grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
             align-items:center;
             gap:10px;
-            flex-wrap:wrap;
+
+            box-shadow:0 2px 6px rgba(0,0,0,0.05);
         }
 
-        li button{
+        .item-info{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .item-name{
+            font-weight:bold;
+            font-size:16px;
+        }
+
+        .item-category{
+            font-size:12px;
+            color:#777;
+        }
+
+        .item-price{
+            font-weight:bold;
+            color:#27ae60;
+        }
+
+        .item-status{
+            font-size:12px;
+        }
+
+        .item-actions{
+            display:flex;
+            gap:6px;
+        }
+
+        .item-actions button{
             padding:6px 10px;
             border:none;
             border-radius:5px;
@@ -178,25 +229,24 @@
             cursor:pointer;
         }
 
-        li button:first-of-type{
+        .delete-btn{
             background:#e74c3c;
             color:white;
         }
 
-        li button:first-of-type:hover{
+        .delete-btn:hover{
             background:#c0392b;
         }
 
-        li button:last-of-type{
+        .toggle-btn{
             background:#f39c12;
             color:white;
         }
 
-        li button:last-of-type:hover{
+        .toggle-btn:hover{
             background:#d68910;
         }
-
-        @media(max-width:700px){
+       @media(max-width:700px){
             form{
                 grid-template-columns:1fr;
             }
@@ -206,8 +256,11 @@
             }
 
             li{
-                flex-direction:column;
-                align-items:flex-start;
+              grid-template-columns:1fr;
+            }
+
+            .item-actions{
+                margin-top:8px;
             }
         }
 
@@ -255,7 +308,7 @@
     <div class="navbar">
         <a href="index.html" class="back-btn">Main</a>
         <div class="logo">Menu</div>
-        
+
         <div class="login-dropdown">
             <button>Login ▼</button>
             <div class="login-dropdown-content">
@@ -283,7 +336,16 @@
     </form>
 
     <h2>Menu Items</h2>
+
+    <div class="menu-toolbar">
+        <button onclick="setSort('category')">Group by Category</button>
+        <button onclick="setSort('priceAsc')">Price ↑</button>
+        <button onclick="setSort('priceDesc')">Price ↓</button>
+        <button onclick="setSort('nameAsc')">Name A-Z</button>
+    </div>
+
     <button id="refreshBtn">Refresh Menu</button>
+
     <ul id="menuList"></ul>
 
 </div>
@@ -342,49 +404,114 @@ document.getElementById("addForm").addEventListener("submit", async (e) => {
     fetchMenu();
 });
 
+let currentSort = null;
+
+function setSort(type){
+    currentSort = type;
+    fetchMenu();
+}
+
 async function fetchMenu(){
+
     const res = await fetch("http://localhost:8001/get_menu");
-    const items = await res.json();
+    let items = await res.json();
+
+    // sorting
+    if(currentSort === "priceAsc"){
+        items.sort((a,b)=>a.price-b.price);
+    }
+
+    if(currentSort === "priceDesc"){
+        items.sort((a,b)=>b.price-a.price);
+    }
+
+    if(currentSort === "nameAsc"){
+        items.sort((a,b)=>a.food_name.localeCompare(b.food_name));
+    }
+
+    if(currentSort === "category"){
+        items.sort((a,b)=>a.category.localeCompare(b.category));
+    }
 
     const ul = document.getElementById("menuList");
     ul.innerHTML = "";
 
     items.forEach(item => {
+
         const li = document.createElement("li");
-        li.textContent = `${item.id}: ${item.food_name} - ${item.category} - $${item.price} - Available: ${item.availability}`;
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+
+        const name = document.createElement("div");
+        name.className = "item-name";
+        name.textContent = item.food_name;
+
+        const category = document.createElement("div");
+        category.className = "item-category";
+        category.textContent = item.category;
+
+        info.appendChild(name);
+        info.appendChild(category);
+
+        const price = document.createElement("div");
+        price.className = "item-price";
+        price.textContent = "$" + item.price;
+
+        const status = document.createElement("div");
+        status.className = "item-status";
+        status.textContent = item.availability ? "Available" : "Unavailable";
+
+        const actions = document.createElement("div");
+        actions.className = "item-actions";
 
         const delBtn = document.createElement("button");
+        delBtn.className = "delete-btn";
         delBtn.textContent = "Delete";
+
         delBtn.onclick = async () => {
             if(!token){ showToast("Please login first!", "warning"); return; }
+
             const res = await fetch(`http://localhost:8001/delete_item/${item.id}`, {
-                method: "DELETE",
-                headers: {"Authorization": "Bearer " + token}
+                method:"DELETE",
+                headers:{ "Authorization": "Bearer " + token }
             });
+
             const data = await res.json();
-            showToast(data.message, "success");
+            showToast(data.message,"success");
             fetchMenu();
         };
 
         const patchBtn = document.createElement("button");
-        patchBtn.textContent = "Toggle Availability";
+        patchBtn.className = "toggle-btn";
+        patchBtn.textContent = "Toggle";
+
         patchBtn.onclick = async () => {
+
             if(!token){ showToast("Please login first!", "warning"); return; }
-            const res = await fetch(`http://localhost:8001/patch_item/${item.id}`, {
-                method: "PATCH",
-                headers: {
-                    "Authorization": "Bearer " + token,
-                    "Content-Type": "application/json"
+
+            const res = await fetch(`http://localhost:8001/patch_item/${item.id}`,{
+                method:"PATCH",
+                headers:{
+                    "Authorization":"Bearer "+token,
+                    "Content-Type":"application/json"
                 },
-                body: JSON.stringify({availability: !item.availability})
+                body:JSON.stringify({availability:!item.availability})
             });
+
             const data = await res.json();
-            showToast(data.message, "success");
+            showToast(data.message,"success");
             fetchMenu();
         };
 
-        li.appendChild(delBtn);
-        li.appendChild(patchBtn);
+        actions.appendChild(delBtn);
+        actions.appendChild(patchBtn);
+
+        li.appendChild(info);
+        li.appendChild(price);
+        li.appendChild(status);
+        li.appendChild(actions);
+
         ul.appendChild(li);
     });
 }
