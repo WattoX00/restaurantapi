@@ -5,12 +5,9 @@ BASE_URL="http://127.0.0.1:8002"
 echo "Logging in..."
 
 TOKEN=$(curl -s -X POST "$BASE_URL/login" \
-  -H "accept: application/json" \
   -H "Content-Type: application/json" \
-  -d '{
-  "username": "admin",
-  "password": "admin"
-}' | sed -E 's/.*"access_token":"([^"]+)".*/\1/')
+  -d '{"username":"admin","password":"admin"}' |
+  sed -E 's/.*"access_token":"([^"]+)".*/\1/')
 
 if [ -z "$TOKEN" ]; then
   echo "Login failed"
@@ -18,6 +15,8 @@ if [ -z "$TOKEN" ]; then
 fi
 
 echo "Token received."
+
+echo "Pushing mock item..."
 
 curl -s -X POST "$BASE_URL/add_order" \
   -H "accept: application/json" \
