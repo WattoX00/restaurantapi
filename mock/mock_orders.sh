@@ -1,31 +1,29 @@
-$()$(
-  bash
-  #!/bin/bash
+#!/bin/bash
 
-  BASE_URL="http://127.0.0.1:8002"
+BASE_URL="http://127.0.0.1:8002"
 
-  echo "Logging in..."
+echo "Logging in..."
 
-  TOKEN=$(curl -s -X POST "$BASE_URL/login" \
-    -H "accept: application/json" \
-    -H "Content-Type: application/json" \
-    -d '{
+TOKEN=$(curl -s -X POST "$BASE_URL/login" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
   "username": "admin",
   "password": "admin"
 }' | sed -E 's/.*"access_token":"([^"]+)".*/\1/')
 
-  if [ -z "$TOKEN" ]; then
-    echo "Login failed"
-    exit 1
-  fi
+if [ -z "$TOKEN" ]; then
+  echo "Login failed"
+  exit 1
+fi
 
-  echo "Token received."
+echo "Token received."
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Cappuccino"
   ],
@@ -35,11 +33,11 @@ $()$(
   "finished": true
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Tomato Basil Soup",
     "Grilled Salmon"
@@ -50,11 +48,11 @@ $()$(
   "finished": true
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Fresh Lemonade",
     "Vegetable Stir Fry",
@@ -66,11 +64,11 @@ $()$(
   "finished": false
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "French Onion Soup"
   ],
@@ -80,11 +78,11 @@ $()$(
   "finished": true
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Spaghetti Carbonara",
     "Cappuccino",
@@ -96,11 +94,11 @@ $()$(
   "finished": false
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Miso Soup",
     "Vegetable Stir Fry"
@@ -111,11 +109,11 @@ $()$(
   "finished": false
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Chicken Noodle Soup",
     "Steak with Garlic Butter",
@@ -127,11 +125,11 @@ $()$(
   "finished": true
 }'
 
-  curl -s -X POST "$BASE_URL/add_order" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $TOKEN" \
-    -H "Content-Type: application/json" \
-    -d '{
+curl -s -X POST "$BASE_URL/add_order" \
+  -H "accept: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
   "food_names": [
     "Iced Tea",
     "Chocolate Lava Cake"
@@ -141,7 +139,6 @@ $()$(
   "time": "2026-03-15T16:44:03Z",
   "finished": false
 }'
-)$()
 
 echo ""
 echo "Done."
