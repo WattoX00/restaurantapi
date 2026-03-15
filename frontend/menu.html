@@ -210,6 +210,42 @@
                 align-items:flex-start;
             }
         }
+
+        #toast-container{
+            position:fixed;
+            top:20px;
+            right:20px;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            z-index:9999;
+        }
+
+        .toast{
+            min-width:220px;
+            padding:12px 16px;
+            border-radius:8px;
+            color:white;
+            font-size:14px;
+            font-weight:bold;
+            box-shadow:0 6px 15px rgba(0,0,0,0.15);
+            animation:slideIn 0.3s ease;
+        }
+
+        .toast.success{ background:#2ecc71; }
+        .toast.error{ background:#e74c3c; }
+        .toast.warning{ background:#f39c12; }
+
+        @keyframes slideIn{
+            from{
+                opacity:0;
+                transform:translateX(30px);
+            }
+            to{
+                opacity:1;
+                transform:translateX(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -253,110 +289,128 @@
 </div>
 
 <script>
-        let token = "";
+let token = "";
 
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-            const res = await fetch("http://localhost:8001/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, password})
+    const res = await fetch("http://localhost:8001/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
+    });
+
+    const data = await res.json();
+    if(res.ok){
+        token = data.access_token;
+        showToast("Login successful!", "success");
+    } else {
+        showToast(data.detail || "Login failed", "error");
+    }
+});
+
+document.getElementById("addForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if(!token){ showToast("Please login first!", "warning"); return; }
+
+    const food_name = document.getElementById("food_name").value;
+    const category = document.getElementById("category").value;
+    const price = parseFloat(document.getElementById("price").value);
+    const ingredients = document.getElementById("ingredients").value
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s);
+    const allergies = document.getElementById("allergies").value
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s);
+    const availability = document.getElementById("availability").value === "True";
+
+    const res = await fetch("http://localhost:8001/new_item", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({food_name, category, price, ingredients, allergies, availability})
+    });
+
+    const data = await res.json();
+    showToast("Item added!", "success");
+    fetchMenu();
+});
+
+async function fetchMenu(){
+    const res = await fetch("http://localhost:8001/get_menu");
+    const items = await res.json();
+
+    const ul = document.getElementById("menuList");
+    ul.innerHTML = "";
+
+    items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.id}: ${item.food_name} - ${item.category} - $${item.price} - Available: ${item.availability}`;
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = async () => {
+            if(!token){ showToast("Please login first!", "warning"); return; }
+            const res = await fetch(`http://localhost:8001/delete_item/${item.id}`, {
+                method: "DELETE",
+                headers: {"Authorization": "Bearer " + token}
             });
-
             const data = await res.json();
-            if(res.ok){
-                token = data.access_token;
-                alert("Login successful!");
-            } else {
-                alert(data.detail || "Login failed");
-            }
-        });
-
-        document.getElementById("addForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            if(!token){ alert("Login first!"); return; }
-
-            const food_name = document.getElementById("food_name").value;
-            const category = document.getElementById("category").value;
-            const price = parseFloat(document.getElementById("price").value);
-            const ingredients = document.getElementById("ingredients").value
-                .split(",")
-                .map(s => s.trim())
-                .filter(s => s);
-            const allergies = document.getElementById("allergies").value
-                .split(",")
-                .map(s => s.trim())
-                .filter(s => s);
-            const availability = document.getElementById("availability").value === "True";
-
-            const res = await fetch("http://localhost:8001/new_item", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                },
-                body: JSON.stringify({food_name, category, price, ingredients, allergies, availability})
-            });
-
-            const data = await res.json();
-            alert(data.message || "Added!");
+            showToast(data.message, "success");
             fetchMenu();
-        });
+        };
 
-        async function fetchMenu(){
-            const res = await fetch("http://localhost:8001/get_menu");
-            const items = await res.json();
-
-            const ul = document.getElementById("menuList");
-            ul.innerHTML = "";
-
-            items.forEach(item => {
-                const li = document.createElement("li");
-                li.textContent = `${item.id}: ${item.food_name} - ${item.category} - $${item.price} - Available: ${item.availability}`;
-
-                const delBtn = document.createElement("button");
-                delBtn.textContent = "Delete";
-                delBtn.onclick = async () => {
-                    if(!token){ alert("Login first!"); return; }
-                    const res = await fetch(`http://localhost:8001/delete_item/${item.id}`, {
-                        method: "DELETE",
-                        headers: {"Authorization": "Bearer " + token}
-                    });
-                    const data = await res.json();
-                    alert(data.message);
-                    fetchMenu();
-                };
-
-                const patchBtn = document.createElement("button");
-                patchBtn.textContent = "Toggle Availability";
-                patchBtn.onclick = async () => {
-                    if(!token){ alert("Login first!"); return; }
-                    const res = await fetch(`http://localhost:8001/patch_item/${item.id}`, {
-                        method: "PATCH",
-                        headers: {
-                            "Authorization": "Bearer " + token,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({availability: !item.availability})
-                    });
-                    const data = await res.json();
-                    alert(data.message);
-                    fetchMenu();
-                };
-
-                li.appendChild(delBtn);
-                li.appendChild(patchBtn);
-                ul.appendChild(li);
+        const patchBtn = document.createElement("button");
+        patchBtn.textContent = "Toggle Availability";
+        patchBtn.onclick = async () => {
+            if(!token){ showToast("Please login first!", "warning"); return; }
+            const res = await fetch(`http://localhost:8001/patch_item/${item.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({availability: !item.availability})
             });
-        }
+            const data = await res.json();
+            showToast(data.message, "success");
+            fetchMenu();
+        };
 
-        document.getElementById("refreshBtn").addEventListener("click", fetchMenu);
+        li.appendChild(delBtn);
+        li.appendChild(patchBtn);
+        ul.appendChild(li);
+    });
+}
 
-        fetchMenu();
+document.getElementById("refreshBtn").addEventListener("click", fetchMenu);
+
+fetchMenu();
+
+function showToast(message, type="success", duration=3000){
+const container = document.getElementById("toast-container");
+
+const toast = document.createElement("div");
+toast.className = `toast ${type}`;
+toast.textContent = message;
+
+container.appendChild(toast);
+
+setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(30px)";
+    setTimeout(()=> toast.remove(),300);
+}, duration);
+}
 </script>
 
-</body>
+<div id="toast-container"></div>
+
+  </body>
 </html>
