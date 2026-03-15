@@ -96,6 +96,37 @@ Workflow: Get the menu > Select items > Create order > Track orders > Complete o
 
 View sales trends and graphs in the statistics tab.
 
+## Mock data
+
+Run Mock data:
+
+<details>
+<summary>Linux / macOS</summary>
+
+Make sure to be in the correct directory (restaurantapi/mock)
+
+```bash
+cd mock
+```
+
+For the menu mock:
+
+```bash
+chmod +x mock_menu.sh
+./mock_menu.sh
+```
+
+For the orders mock:
+
+```bash
+chmod +x mock_orders.sh
+./mock_orders.sh
+```
+
+</details>
+
+KEEP IN MIND THAT THE MOCK DATA WAS CREATED AT 2026-03-15 WHICH MEANS THE STATISTICS IS AVAILABLE FOR THAT PERIOD OF TIME.
+
 ## 🔒 Authentication
 
 Uses basic JWT authentication.
