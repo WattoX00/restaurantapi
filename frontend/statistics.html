@@ -314,12 +314,10 @@ async function monthlyData() {
         return;
     }
 
-    // Convert to JS Date object
-    const selectedDate = new Date(dateInput);
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth() + 1; // getMonth() is 0-indexed
-
-    const res = await fetch(API_URL + `/monthly_data?year=${year}&month=${month}`, {
+    const [yearStr, monthStr] = dateInput.split("-");
+    const year = parseInt(yearStr);
+    const month = parseInt(monthStr) - 1;
+    const res = await fetch(`${API_URL}/monthly_data?year=${year}&month=${month}`, {
         method: "GET",
         headers: { "Authorization": "Bearer " + token }
     });
@@ -394,7 +392,7 @@ async function monthlyData() {
 
     <h2>Monthly Data</h2>
     <div class="section">
-        <input id="monthPicker" type="date" placeholder="Select Year & Month">
+        <input id="monthPicker" type="month" placeholder="YYYY-MM">
         <button onclick="monthlyData()">Get Monthly Data</button>
     </div>
 
