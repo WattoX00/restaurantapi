@@ -183,6 +183,41 @@
     }
 
   }
+    #toast-container{
+    position:fixed;
+    top:20px;
+    right:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:9999;
+}
+
+.toast{
+    min-width:220px;
+    padding:12px 16px;
+    border-radius:8px;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+    animation:slideIn 0.3s ease;
+}
+
+.toast.success{ background:#2ecc71; }
+.toast.error{ background:#e74c3c; }
+.toast.warning{ background:#f39c12; }
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateX(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 </style>
 
 <script>
@@ -199,23 +234,23 @@ function setTodayDefaults(){
     document.getElementById("least_end").value = today;
 }
 
-async function login(){
+async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch(API_URL + "/login", {
+    const res = await fetch(`${API_URL}/login`, {
         method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({username: username, password: password})
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
     });
 
     const data = await res.json();
 
     if(res.ok){
         token = data.access_token;
-        alert("Login successful");
+        showToast("Login successful!", "success");
     }else{
-        alert("Login failed");
+        showToast(data.detail || "Login failed", "error");
     }
 }
 
@@ -229,6 +264,12 @@ async function mostSold(){
     });
 
     const data = await res.json();
+
+    if(data.detail && data.detail.toLowerCase().includes("token")){
+        showToast("Invalid token. Please login.", "error");
+        return;
+    }
+
     const container = document.getElementById("most_result");
     container.innerHTML = "";
 
@@ -273,6 +314,11 @@ async function leastSold(){
     });
 
     const data = await res.json();
+
+    if(data.detail && data.detail.toLowerCase().includes("token")){
+        showToast("Invalid token. Please login.", "error");
+        return;
+    }
     const container = document.getElementById("least_result");
     container.innerHTML = "";
 
@@ -310,8 +356,7 @@ async function monthlyData() {
     const dateInput = document.getElementById("monthPicker").value;
 
     if (!dateInput) {
-        alert("Please select a month.");
-        return;
+       showToast("Please select a date.", "error");        return;
     }
 
     const [yearStr, monthStr] = dateInput.split("-");
@@ -323,6 +368,10 @@ async function monthlyData() {
     });
 
     const data = await res.json();
+    if(data.detail && data.detail.toLowerCase().includes("token")){
+        showToast("Invalid token. Please login.", "error");
+        return;
+    }
     const container = document.getElementById("monthly_result");
     container.innerHTML = `
         <div>Total Revenue: ${data.total_revenue}</div>
@@ -342,6 +391,22 @@ async function monthlyData() {
         },
         options: { responsive: true }
     });
+}
+
+function showToast(message, type="success", duration=3000){
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(30px)";
+        setTimeout(()=> toast.remove(),300);
+    }, duration);
 }
 </script>
 </head>
@@ -402,6 +467,8 @@ async function monthlyData() {
     </div>
 
 </div>
+
+<div id="toast-container"></div>
 
 </body>
 </html>
