@@ -52,33 +52,18 @@ async function addOrder(){
 async function viewOrders(){
     const res = await fetch(`${API_URL}/view_orders`);
     const data = await res.json();
-
-    const container = document.getElementById("orders");
-    container.innerHTML = "";
-
-    data.forEach(o=>{
-        const div = document.createElement("div");
-        div.textContent = `ID:${o.id} | Table:${o.table_number} | Foods:${o.food_names.join(",")} | Finished:${o.finished}`;
-        container.appendChild(div);
-    });
+    renderOrders(data, "orders");
 }
 
 async function viewFinishedOrders(){
     const res = await fetch(`${API_URL}/view_finished`);
     const data = await res.json();
- 
-    const container = document.getElementById("finished_orders");
-    container.innerHTML = "";
- 
-    data.forEach(o=>{
-        const div = document.createElement("div");
-        div.textContent = `ID:${o.id} | Table:${o.table_number} | Foods:${o.food_names.join(",")} | Finished:${o.finished}`;
-        container.appendChild(div);
-    });
+    renderOrders(data, "finished_orders");
 }
 
 async function viewOrder() {
     const id = document.getElementById("view_id").value;
+    if(!id) return;
 
     const res = await fetch(`${API_URL}/view_order/${id}`);
     const data = await res.json();
@@ -87,7 +72,6 @@ async function viewOrder() {
 
     container.innerHTML = `
         <div class="order-card">
-
             <div class="order-header">
                 <span>Order #${data.id}</span>
                 <span>Table ${data.table_number}</span>
@@ -97,13 +81,15 @@ async function viewOrder() {
 
                 <div class="order-row">
                     <span class="order-label">Time</span>
-                    <span class="order-value">${new Date(data.time).toLocaleString()}</span>
+                    <span class="order-value">
+                        ${new Date(data.time).toLocaleString()}
+                    </span>
                 </div>
 
                 <div>
                     <div class="order-label">Foods</div>
                     <ul class="food-list">
-                        ${data.food_names.map(food => `<li>${food}</li>`).join("")}
+                        ${data.food_names.map(f => `<li>${f}</li>`).join("")}
                     </ul>
                 </div>
 
@@ -119,6 +105,11 @@ async function viewOrder() {
             </div>
         </div>
     `;
+}
+
+function toggleSection(id){
+    const el = document.getElementById(id);
+    el.classList.toggle("open");
 }
 
 async function updateOrder(){
@@ -152,6 +143,42 @@ async function updateOrder(){
     }else{
         showToast(data.detail || "Failed to update order", "error");
     }
+}
+
+function renderOrders(data, containerId){
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    data.forEach(o=>{
+        const div = document.createElement("div");
+        div.className = "order-item";
+
+        div.innerHTML = `
+            <div><strong>#${o.id}</strong> • Table ${o.table_number}</div>
+            <div class="order-foods">${o.food_names.join(", ")}</div>
+            <div class="order-status-small ${o.finished ? "finished" : "progress"}">
+                ${o.finished ? "Finished" : "In Progress"}
+            </div>
+        `;
+
+        div.onclick = () => {
+            selectOrder(o.id, containerId);
+        };
+
+        container.appendChild(div);
+    });
+}
+
+function selectOrder(id, sourceContainer){
+    document.getElementById("view_id").value = id;
+
+    if(sourceContainer === "orders"){
+        document.getElementById("all_section").classList.remove("open");
+    } else {
+        document.getElementById("finished_section").classList.remove("open");
+    }
+
+    viewOrder();
 }
 
 async function finishOrder(){
