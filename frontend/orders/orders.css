@@ -252,6 +252,56 @@ h2{
     color:#b26a00;
     border:1px solid #ffe0b3;
 }
+
+.collapsible{
+    cursor:pointer;
+    user-select:none;
+}
+
+.section-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+}
+
+.section-content.open{
+    max-height:500px;
+}
+
+.order-item{
+    background:#fafafa;
+    border:1px solid #eee;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.order-item:hover{
+    background:#f0f4ff;
+    border-color:#4a90e2;
+}
+
+.order-foods{
+    font-size:13px;
+    color:#666;
+    margin-top:4px;
+}
+
+.order-status-small{
+    margin-top:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.order-status-small.finished{
+    color:#1e7e34;
+}
+
+.order-status-small.progress{
+    color:#b26a00;
+}
+
   label{
       display:flex;
       align-items:center;
