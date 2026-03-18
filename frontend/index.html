@@ -4,136 +4,10 @@
 <meta charset="UTF-8">
 <title>Restaurant API</title>
 
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-background:linear-gradient(135deg,#f4f6f9,#e9edf3);
-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-color:#333;
-}
-
-.container{
-text-align:center;
-max-width:900px;
-padding:40px;
-}
-
-.logo{
-font-size:60px;
-font-weight:800;
-letter-spacing:2px;
-margin-bottom:10px;
-}
-
-.subtitle{
-font-size:18px;
-color:#666;
-margin-bottom:40px;
-}
-
-.nav{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:30px;
-}
-
-.nav a{
-text-decoration:none;
-padding:14px 26px;
-border-radius:8px;
-background:#4a90e2;
-color:white;
-font-weight:bold;
-transition:0.2s;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-
-.nav a:hover{
-background:#357bd8;
-transform:translateY(-2px);
-}
-
-.github{
-margin-top:20px;
-font-size:15px;
-}
-
-.github a{
-color:#4a90e2;
-text-decoration:none;
-font-weight:bold;
-}
-
-.github a:hover{
-text-decoration:underline;
-}
-
-.toggle-btn{
-margin-top:30px;
-padding:12px 24px;
-border:none;
-border-radius:8px;
-background:#2ecc71;
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:0.2s;
-}
-
-.toggle-btn:hover{
-background:#27ae60;
-}
-
-.help{
-margin-top:25px;
-display:none;
-text-align:left;
-background:white;
-border:1px solid #eee;
-border-radius:10px;
-padding:25px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-}
-
-.help h3{
-margin-bottom:10px;
-}
-
-.help ul{
-padding-left:20px;
-line-height:1.7;
-}
-
-.footer{
-position:fixed;
-bottom:15px;
-font-size:13px;
-color:#888;
-}
-
-</style>
-
-<script>
-function toggleHelp(){
-const el = document.getElementById("helpBox");
-el.style.display = el.style.display === "block" ? "none" : "block";
-}
-</script>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 
 </head>
-
 <body>
 
 <div class="container">
@@ -142,9 +16,9 @@ el.style.display = el.style.display === "block" ? "none" : "block";
 <div class="subtitle">Simple Restaurant Management Dashboard</div>
 
 <div class="nav">
-<a href="menu.html">Menu</a>
-<a href="orders.html">Orders</a>
-<a href="statistics.html">Statistics</a>
+    <a href="menu/menu.html">Menu</a>
+    <a href="orders/orders.html">Orders</a>
+    <a href="statistics/statistics.html">Statistics</a>
 </div>
 
 <button class="toggle-btn" onclick="toggleHelp()">How to use</button>
@@ -154,26 +28,26 @@ el.style.display = el.style.display === "block" ? "none" : "block";
 <h3>How to Use</h3>
 
 <ul>
-<li><b>Menu</b> – Manage menu items. Add foods, update availability, or remove items.</li>
-<li><b>Orders</b> – Create and manage customer orders by table number.</li>
-<li><b>Statistics</b> – View sales insights like most sold items, least sold items, and monthly revenue.</li>
-<li>Login is required for protected actions like editing or updating data.</li>
-<li>Use the navigation buttons above to move between modules.</li>
+    <li><b>Menu</b> – Manage menu items. Add foods, update availability, or remove items.</li>
+    <li><b>Orders</b> – Create and manage customer orders by table number.</li>
+    <li><b>Statistics</b> – View sales insights like most sold items, least sold items, and monthly revenue.</li>
+    <li>Login is required for protected actions like editing or updating data.</li>
+    <li>Use the navigation buttons above to move between modules.</li>
 </ul>
 
 </div>
 
 <div class="github">
-Project Repository:
-<a href="https://github.com/wattox00/restaurantapi" target="_blank">
-https://github.com/wattox00/restaurantapi
-</a>
+    Project Repository:
+    <a href="https://github.com/wattox00/restaurantapi" target="_blank">
+    https://github.com/wattox00/restaurantapi
+    </a>
 </div>
 
 </div>
 
 <div class="footer">
-Restaurant API Dashboard
+    Restaurant API Dashboard
 </div>
 
 </body>
