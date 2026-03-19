@@ -4,11 +4,6 @@ A FastAPI backend for managing a restaurant's menu, orders, and sales statistics
 
 <details>
 <summary>Demos</summary>
-
-<img src="assets/menu.png" height="500">
-<img src="assets/orders.png" height="500">
-<img src="assets/statistics.png" height="500">
-
 </details>
 
 ## 🚀 Installation
