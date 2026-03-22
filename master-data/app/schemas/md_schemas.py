@@ -8,6 +8,9 @@ class Allergy(str, Enum):
     nuts = "nuts"
     gluten = "gluten"
     dairy = "dairy"
+    soy = "soy"
+    fish = "fish"
+    egg = "egg"
 
 class MenuRequest(BaseModel):
     food_name: str
