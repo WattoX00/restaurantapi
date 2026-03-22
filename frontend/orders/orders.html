@@ -37,15 +37,13 @@
     <button onclick="addOrder()">Add Order</button>
 </div>
 
-<h2 onclick="toggleSection('all_section')" class="collapsible">View All Orders</h2>
+<h2 onclick="viewOrders()" class="collapsible">View All Orders</h2>
 <div id="all_section" class="section-content">
-    <button onclick="viewOrders()">Load Orders</button>
     <div id="orders"></div>
 </div>
 
-<h2 onclick="toggleSection('finished_section')" class="collapsible">View Finished Orders</h2>
+<h2 onclick="viewFinishedOrders()" class="collapsible">View Finished Orders</h2>
 <div id="finished_section" class="section-content">
-    <button onclick="viewFinishedOrders()">Load Finished Orders</button>
     <div id="finished_orders"></div>
 </div>
 

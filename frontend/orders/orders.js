@@ -49,13 +49,20 @@ async function addOrder(){
     }
 }
 
+function toggleSection(id){
+    const el = document.getElementById(id);
+    el.classList.toggle("open");
+}
+
 async function viewOrders(){
+    toggleSection('all_section')
     const res = await fetch(`${API_URL}/view_orders`);
     const data = await res.json();
     renderOrders(data, "orders");
 }
 
 async function viewFinishedOrders(){
+    toggleSection('finished_section')
     const res = await fetch(`${API_URL}/view_finished`);
     const data = await res.json();
     renderOrders(data, "finished_orders");
@@ -107,10 +114,6 @@ async function viewOrder() {
     `;
 }
 
-function toggleSection(id){
-    const el = document.getElementById(id);
-    el.classList.toggle("open");
-}
 
 async function updateOrder(){
     const id = document.getElementById("update_id").value;
