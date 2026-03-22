@@ -302,25 +302,24 @@ h2{
     color:#b26a00;
 }
 
-  label{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:14px;
+label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:14px;
+}
+
+@media(max-width:700px){
+  .section{
+      grid-template-columns:1fr;
   }
 
-  @media(max-width:700px){
-
-    .section{
-        grid-template-columns:1fr;
-    }
-
-    .section button{
-        grid-column:span 1;
-    }
-
+  .section button{
+      grid-column:span 1;
   }
-  #toast-container{
+
+}
+#toast-container{
     position:fixed;
     top:20px;
     right:20px;
