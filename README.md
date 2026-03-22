@@ -4,6 +4,11 @@ A FastAPI backend for managing a restaurant's menu, orders, and sales statistics
 
 <details>
 <summary>Demos</summary>
+
+<img src="assets/menu_demo.png" height="600">
+<img src="assets/orders_demo.png" height="600">
+<img src="assets/statistics_demo.png" height="600">
+
 </details>
 
 ## 🚀 Installation
@@ -16,7 +21,7 @@ git clone https://github.com/wattox00/restaurantapi.git
 cd restaurantapi
 ```
 
-Create a virtual environment
+#### Create a virtual environment
 
 <details>
 <summary>Linux / macOS</summary>
@@ -38,7 +43,7 @@ python -m venv .venv
 
 </details>
 
-Install dependencies
+#### Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -109,14 +114,12 @@ cd restaurantapi/mock
 Menu mock:
 
 ```bash
-chmod +x mock_menu.sh
 ./mock_menu.sh
 ```
 
 Orders mock:
 
 ```bash
-chmod +x mock_orders.sh
 ./mock_orders.sh
 ```
 
