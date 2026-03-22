@@ -266,6 +266,7 @@ h2{
 
 .section-content.open{
     max-height:500px;
+    overflow-y:auto;
 }
 
 .order-item{
