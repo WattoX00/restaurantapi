@@ -63,7 +63,6 @@ async function fetchMenu(){
     const res = await fetch("http://localhost:8001/get_menu");
     let items = await res.json();
 
-    // sorting
     if(currentSort === "priceAsc"){
         items.sort((a,b)=>a.price-b.price);
     }
